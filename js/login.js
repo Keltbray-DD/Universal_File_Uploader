@@ -8,7 +8,7 @@
     sessionStorage.setItem('userID',userID)
     console.log("userID",sessionStorage.getItem('userID'))
     setUserInfo(userDetails);
-    if(window.location.href.includes("/index.html")){
+    if(window.location.href.includes("https://keltbray-dd.github.io/Universal_File_Uploader/?code=") || window.location.href.includes("/index.html")){
       await loadProjects();
     }
 
