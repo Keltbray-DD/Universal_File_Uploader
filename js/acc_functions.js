@@ -1,7 +1,8 @@
 
 
     async function fetchProjects() {
-        const userID = localStorage.getItem('userID')
+        const userID = sessionStorage.getItem('userID')
+        console.log('userID Request',userID)
         const bodyData = {
             'userID': userID
             };
