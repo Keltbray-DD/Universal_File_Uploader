@@ -33,6 +33,13 @@
                 oninput="filterProjects()"
             >
         <div class="gallery" id="gallery">
+            <div id="projectLoadingSpinner">
+                <div class="spinner"></div>
+                <p>Loading ACC Projects...</p>
+                <p id="statusUpdateLoading"></p>
+                <div id="tooltip" class="tooltip">
+                </div>
+            </div>
             <!-- <div class="project">
                 <img src="project1.jpg" alt="Project 1">
                 <div class="project-info">

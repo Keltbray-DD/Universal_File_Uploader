@@ -362,12 +362,12 @@ async function getNamingStandard() {
 
 
     //console.log(namingstandard)
-    console.log(arrayprojectPin)
-    console.log(arrayOriginator)
-    console.log(arrayfunction)
-    console.log(arraySpatial)
-    console.log(arrayForm)
-    console.log(arrayDiscipline)
+    console.log('Project Pin',arrayprojectPin)
+    console.log('Originator',arrayOriginator)
+    console.log('Function',arrayfunction)
+    console.log('Spatial',arraySpatial)
+    console.log('Form',arrayForm)
+    console.log('Discipline',arrayDiscipline)
     }
 
 async function getfileslist(projectPin) {
@@ -599,15 +599,15 @@ async function getNamingStandardforproject(access_token,ns_id,project_id){
 
 async function getProjectDetailsFromACC(){
     accessTokenDataRead = await getAccessToken("data:read")
-    topFolderData = await getProjectTopFolder(accessTokenDataRead,hubID,projectID)
-    ProjectFiles = topFolderData.data.filter(item => {
-        return item.attributes.name === "Project Files"
-    })
-    startFolderID = ProjectFiles[0].id
-    console.log("Project Files Folder ID:",startFolderID)
-    startfolder_list = [{folderID: ProjectFiles[0].id,folderName: ProjectFiles[0].attributes.name}]
-    console.log("StartFolder:",startfolder_list)
-    await getAllACCFolders(startfolder_list)
+    // topFolderData = await getProjectTopFolder(accessTokenDataRead,hubID,projectID)
+    // ProjectFiles = topFolderData.data.filter(item => {
+    //     return item.attributes.name === "Project Files"
+    // })
+    // startFolderID = ProjectFiles[0].id
+    // console.log("Project Files Folder ID:",startFolderID)
+    // startfolder_list = [{folderID: ProjectFiles[0].id,folderName: ProjectFiles[0].attributes.name}]
+    // console.log("StartFolder:",startfolder_list)
+    await getAllACCFolders()
 
     }
 
@@ -646,20 +646,9 @@ async function getProjectTopFolder(accessTokenDataRead,hubID,projectID){
     }
 
 async function getAllACCFolders(startfolder_list){
-    if(startfolder_list.length === 0){
-        alert("Please enter a URL before clicking start")
-    }else{
+
         //statusUpdate = document.getElementById('statusUpdate')
-        try {
-            access_token_create = await getAccessToken("data:write");
-        } catch {
-            console.log("Error: Getting Create Access Token");
-        }
-        try {
-            access_token_read = await getAccessToken("data:read");
-        } catch {
-            console.log("Error: Getting Read Access Token");
-        }
+
         try {
             await getFolders()
 
@@ -671,33 +660,100 @@ async function getAllACCFolders(startfolder_list){
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Templae and Options file ready for download</p>`
 
 
-    }}
+    }
 
     async function getFolders() {
+        try {
+            access_token_create = await getAccessToken("data:write");
+        } catch {
+            console.log("Error: Getting Create Access Token");
+        }
+        try {
+            access_token_read = await getAccessToken("data:read");
+        } catch {
+            console.log("Error: Getting Read Access Token");
+        }
         getRate = 0;
             
         folderList_Main = []
+        statusUpdateLoading.textContent = "Getting Folders..."
+        await sortFolderList()
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Start Folder Found</p>`
-        await getFolderList(access_token_read,startfolder_list)
+        //await getFolderList(access_token_read,startfolder_list)
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Folder List Created</p>`
         console.log("Full Folder List",folderList_Main)
         console.log("Deliverable Folders:",deliverableFolders)
+        //await getTemplateFolder()
         await getNamingStandardID(deliverableFolders)
+        statusUpdateLoading.textContent = "Getting Template files..."
+        await getTemplateFiles()
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Naming Standard Extracted</p>`
         
-        uploadfolders = deliverableFolders.filter(item => {
-            return item.folderPath.includes("WIP") || item.folderPath.includes("SHARED");
-        });
+        // uploadfolders = deliverableFolders.filter(item => {
+        //     return item.folderPath.includes("WIP") || item.folderPath.includes("SHARED");
+        // });
         console.log('Upload Folders',uploadfolders)
         localStorage.setItem('projectId',projectID)
-        localStorage.setItem('mainFolderArray', JSON.stringify(folderList_Main));
-        localStorage.setItem('uploadFolderArray', JSON.stringify(uploadfolders));
-        localStorage.setItem('deliverableFoldersArray', JSON.stringify(deliverableFolders));
+        // localStorage.setItem('mainFolderArray', JSON.stringify(folderList_Main));
+        // localStorage.setItem('uploadFolderArray', JSON.stringify(uploadfolders));
+        // localStorage.setItem('deliverableFoldersArray', JSON.stringify(deliverableFolders));
         const newTime = new Date().getTime()
         console.log('New Folder Update Time',newTime)
         localStorage.setItem('folderGatheredTimestamp', newTime);
     }
 
+    async function getFolderListFromSP(){
+        const bodyData = {
+            'projectID': projectID
+        };
+        const headers = {
+            'Content-Type': 'application/json',
+        };
+    
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(bodyData)
+        };
+    
+        const apiUrl = "https://prod-32.uksouth.logic.azure.com:443/workflows/36be117e4fad49499e161ffe1812ccac/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1Z5PFSuTAndMsvdUegK540HeASx8tiottb0N5UcpWvQ";
+        //console.log(apiUrl)
+        //console.log(requestOptions)
+        signedURLData = await fetch(apiUrl,requestOptions)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Raw SP Folder Data',data)
+                const JSONdata = data;
+
+            //console.log(JSONdata)
+            //console.log(JSONdata.uploadKey)
+            //console.log(JSONdata.urls)
+            return JSONdata
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        return signedURLData
+        }
+    
+
+    async function sortFolderList() {
+        try{
+            folderData = await getFolderListFromSP()
+            deliverableFolders = JSON.parse(folderData[0].folder_array_deliverables)
+            folderList_Main= JSON.parse(folderData[0].folder_array)
+            uploadfolders = JSON.parse(folderData[0].upload_folders)
+            let templateFolder = JSON.parse(folderData[0].templateFolder)
+            console.log('SP_List_templateFolder',templateFolder)
+            templateFolderID = templateFolder[0].folderID
+            console.log('SP_List_deliverableFolders',deliverableFolders)
+            console.log('SP_List_folderList_Main',folderList_Main)
+            console.log('SP_List_uploadfolders',uploadfolders)
+            console.log('SP_List_templateFolderID',templateFolderID)
+        } catch {
+            console.log("Error: Geting folder list");
+            console.error()
+        }
+
+    }
 async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
 
         // Array of folder names to skip
@@ -749,8 +805,6 @@ async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
                 //await Promise.all(promises);
             }
         
-    
-
 async function getNamingStandardID(folderArray){
     wipFolderID = folderArray.filter(item => {
         return item.folderPath.includes("WIP")})
@@ -763,16 +817,15 @@ async function getNamingStandardID(folderArray){
     console.log('Naming Standard ID', namingstandardID)
 }
 
-async function getTemplateFolder(folderArray){
-    templateFolderID = folderArray.find(item => item.folderPath.includes("0B.GENERAL/APPROVED_TEMPLATES")).folderID;
+// async function getTemplateFolder(folderArray){
+//     // templateFolderID = folderArray.find(item => item.folderPath.includes("APPROVED_TEMPLATES")).folderID;
 
-    console.log('Template Folder ID:',templateFolderID);
-    statusUpdateLoading.textContent = "Getting Template files..."
-    await getTemplateFiles()
+//     console.log('Template Folder ID:',templateFolderID);
+
 
     
-    return 
-}
+//     return 
+// }
 async function getFolderDetails(accessTokenDataRead,projectID,folderID){
 
     const headers = {

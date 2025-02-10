@@ -8,6 +8,7 @@ const REFRESH_INTERVAL_DAYS = 14;
 let ProjectFiles = [];
 let projectFolders;
 let deliverableFolders = [];
+let folderData = [];
 
 const StatesList = [
   { code: "A4", description: "Accepted Design", folder: "PUBLISHED" },
@@ -140,6 +141,7 @@ let StateID;
 let SeriesID;
 let DeliverableID;
 let namingstandardID;
+let templateFolderID
 
 let initialSectionHTML
 let initialStep4SectionHTML

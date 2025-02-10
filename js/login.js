@@ -193,12 +193,12 @@
           clearUrlParameters();
           location.reload();
         } else {
-          console.log(data);
+          //console.log(data);
           localStorage.setItem('user_refresh_token',data.refresh_token);
           userRefreshToken = data.refresh_token;
-          console.log("userRefreshToken", userRefreshToken);
+          //console.log("userRefreshToken", userRefreshToken);
           userAccessToken = data.access_token;
-          console.log("userAccessToken", userAccessToken);
+          //console.log("userAccessToken", userAccessToken);
           getUserDetailsFill();
         }
         return data;
