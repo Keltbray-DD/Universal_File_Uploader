@@ -1,3 +1,6 @@
+const appName = "ACC File Uploader";
+const appVersion = "v1.1.1";
+
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
 const bucketKey = "wip.dm.emea.2"
