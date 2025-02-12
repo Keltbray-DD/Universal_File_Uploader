@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
     // Get the full URL of the current webpage
     const fullUrl = window.location.href;
-
+    document.getElementById("appInfo").textContent = `${appName} ${appVersion}`;
     // Split the URL at the "?" and take the first part
     toolURL = fullUrl.split('?')[0];
     await checkLogin()
