@@ -253,7 +253,7 @@ async function getNamingStandard() {
     }
 
     console.log(namingstandard)
-    arrayprojectPin = namingstandard.find(item => item.name === "Project PIN") // Change back to Project Pin
+    arrayprojectPin = namingstandard.find(item => item.name === "Project PIN" || item.name === "Project Pin") // Change back to Project Pin
     arrayprojectPin = arrayprojectPin ? arrayprojectPin.options : [];
 
     // Get the dropdown container
@@ -704,7 +704,7 @@ async function getAllACCFolders(startfolder_list){
 
     async function getFolderListFromSP(){
         const bodyData = {
-            'projectID': projectID
+            'project_ID': projectID
         };
         const headers = {
             'Content-Type': 'application/json',
@@ -716,7 +716,7 @@ async function getAllACCFolders(startfolder_list){
             body: JSON.stringify(bodyData)
         };
     
-        const apiUrl = "https://prod-32.uksouth.logic.azure.com:443/workflows/36be117e4fad49499e161ffe1812ccac/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=1Z5PFSuTAndMsvdUegK540HeASx8tiottb0N5UcpWvQ";
+        const apiUrl = "https://prod-29.uksouth.logic.azure.com:443/workflows/aa3b3f6ba93f4901acef15184cd5b8de/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=olW_Pb6Al6jJNptqxPXBc-_YBoqN2YOmYiYYBrqd1C8";
         //console.log(apiUrl)
         //console.log(requestOptions)
         signedURLData = await fetch(apiUrl,requestOptions)

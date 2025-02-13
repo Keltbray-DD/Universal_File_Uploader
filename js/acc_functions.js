@@ -4,7 +4,8 @@
         const userID = sessionStorage.getItem('userID')
         console.log('userID Request',userID)
         const bodyData = {
-            'userID': userID
+            'userID': userID,
+            'requestType':'fileUploader'
             };
     
         const headers = {
