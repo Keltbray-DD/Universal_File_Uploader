@@ -285,7 +285,7 @@ async function getNamingStandard() {
     //     });
     // }else{
         const wipFolders = deliverableFolders.filter(folder => folder.folderEndName === "WIP");
-        arrayOriginatorSingle = arrayOriginator.filter(originator => originator.description === userCompany)
+        arrayOriginatorSingle = arrayOriginator.filter(originator => originator.description.includes(userCompany))
         arrayOriginatorSingle.forEach(option => {
             const optionElement = document.createElement("option");
             optionElement.selected = true
