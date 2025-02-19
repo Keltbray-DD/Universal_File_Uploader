@@ -40,7 +40,7 @@ async function populateFolderDropdown(folderArray,ProjectPin) {
     console.log(folderArray)
     const dropdown = document.getElementById('input_folder');
     uploadfolders = deliverableFolders.filter(item => {
-        return item.folderPath.includes("WIP") || item.folderPath.includes("SHARED");
+        return (item.folderPath.includes("WIP")) || item.folderPath.includes("SHARED");
     });
     if(ProjectPin){
         uploadfolders = uploadfolders.filter(item => {

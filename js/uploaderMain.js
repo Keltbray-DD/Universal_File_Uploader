@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const stepContent = document.querySelector(`#step${stepNumber} .step-content`);
         const isVisible = stepContent.style.display === 'block';
         stepContent.style.display = isVisible ? 'none' : 'block';
+
     }
 
     // Function to mark a step as complete
@@ -57,7 +58,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Minimize the step content
         const stepContent = document.querySelector(`#step${stepNumber} .step-content`);
         stepContent.style.display = 'none';
-
+        if(stepNumber == 2){
+            populateFolderDropdown(deliverableFolders);
+        }
         // Expand the next step (if it exists)
         const nextStep = document.getElementById(`step${stepNumber + 1}`);
         if (nextStep) {
