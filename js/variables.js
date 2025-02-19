@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.1.5";
+const appVersion = "v1.1.6";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -8,6 +8,7 @@ let toolURL
 const AAFLink = `https://keltbray-dd.github.io/ACC_User_Access_Form/?id=b.${projectID}`
 const REFRESH_INTERVAL_DAYS = 14;
 
+let project_Name;
 let ProjectFiles = [];
 let projectFolders;
 let deliverableFolders = [];

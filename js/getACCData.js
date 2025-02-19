@@ -677,6 +677,7 @@ async function getAllACCFolders(startfolder_list){
             
         folderList_Main = []
         statusUpdateLoading.textContent = "Getting Folders..."
+        project_Name = sessionStorage.getItem('projectName')
         await sortFolderList()
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Start Folder Found</p>`
         //await getFolderList(access_token_read,startfolder_list)
@@ -704,7 +705,7 @@ async function getAllACCFolders(startfolder_list){
 
     async function getFolderListFromSP(){
         const bodyData = {
-            'project_ID': projectID
+            'project_Name': project_Name
         };
         const headers = {
             'Content-Type': 'application/json',
