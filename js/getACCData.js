@@ -739,10 +739,10 @@ async function getAllACCFolders(startfolder_list){
     async function sortFolderList() {
         try{
             folderData = await getFolderListFromSP()
-            deliverableFolders = JSON.parse(folderData[0].folder_array_deliverables)
-            folderList_Main= JSON.parse(folderData[0].folder_array)
-            uploadfolders = JSON.parse(folderData[0].upload_folders)
-            let templateFolder = JSON.parse(folderData[0].templateFolder)
+            deliverableFolders = JSON.parse(folderData.data[0].folder_array_deliverables)
+            folderList_Main= JSON.parse(folderData.data[0].folder_array)
+            uploadfolders = JSON.parse(folderData.data[0].upload_folders)
+            let templateFolder = JSON.parse(folderData.data[0].templateFolder)
             console.log('SP_List_templateFolder',templateFolder)
             templateFolderID = templateFolder[0].folderID
             console.log('SP_List_deliverableFolders',deliverableFolders)
