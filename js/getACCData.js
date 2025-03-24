@@ -808,7 +808,8 @@ async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
         
 async function getNamingStandardID(folderArray){
     wipFolderID = folderArray.filter(item => {
-        return item.folderPath.includes("WIP")})
+        return item.folderPath.includes("0C.WIP/KEL") || item.folderPath.includes("0C.WIP/A")
+    })
     console.log("Keltrbay WIP Folder for NS",wipFolderID[0]);
     defaultFolder = wipFolderID[0].folderID
     returnData = await getFolderDetails(accessTokenDataRead,projectID,wipFolderID[0].folderID)
