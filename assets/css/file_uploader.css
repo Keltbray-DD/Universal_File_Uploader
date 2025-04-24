@@ -27,13 +27,13 @@ body {
 
 .form-container {
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 20px auto;
     background: white;
     padding: 25px;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     overflow: hidden;
-    margin: 20px;
+    /* margin: 20px; */
 }
 
 #titleBox {
@@ -107,6 +107,7 @@ body {
 }
 
 .step-content .nextButton {
+    margin-top: 5px;
     padding: 12px 20px;
     border: none;
     border-radius: var(--border-radius);
@@ -301,7 +302,7 @@ progress::-webkit-progress-value {
 }
 
 .progress-bar__container {
-    width: 100%;
+    width: 90%;
     height: 2rem;
     border-radius: 2rem;
     position: relative;
@@ -879,32 +880,32 @@ input[type="checkbox"]:focus {
     line-height: 1.6;
 }
 
-.logo {
+/* .logo {
     position: fixed;
-    /* Fixes the position relative to the viewport */
+
     bottom: 20px;
-    /* Distance from the bottom edge */
+
     right: 20px;
-    /* Distance from the right edge */
+
     width: 150px;
-    /* Set the size of the logo */
+
     height: auto;
-    /* Maintain aspect ratio */
+
     z-index: 1000;
-    /* Ensure it appears above other elements */
+
     opacity: 0.8;
-    /* Slight transparency for a modern feel */
+
     transition: opacity 0.3s ease;
-    /* Smooth hover effect */
+
 }
 
 .logo:hover {
     opacity: 1;
-    /* Full opacity on hover */
+    
     transform: scale(1.05);
-    /* Slight zoom-in effect on hover */
+
     transition: var(--transition);
-}
+} */
 
 .middleSection {
     max-width: 1200px;
@@ -963,4 +964,29 @@ input[type="checkbox"]:focus {
     margin: 0;         /* Space above and below */
     width: 100%;            /* Full width */
     margin-top: 10px;
+    margin-bottom: 10px;
 }
+
+.dropdown-docType {
+    /* position: absolute; */
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-top: none;
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
+    z-index: 10;
+  }
+
+  .dropdown-docType div {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .dropdown-docType div:hover {
+    background-color: #f0f0f0;
+  }

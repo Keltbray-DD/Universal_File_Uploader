@@ -11,10 +11,28 @@
     if(window.location.href.includes("/Universal_File_Uploader/?code=") || window.location.href.includes("/index.html")){
       await loadProjects();
     }
+    const profileMenu = document.getElementById('profileMenu');
+    const dropdown = document.getElementById('dropdown');
 
+    profileMenu.addEventListener('click', (e) => {
+        dropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!profileMenu.contains(e.target)) {
+        dropdown.classList.remove('active');
+        }
+    });
   }
+
+  function logout() {
+    localStorage.setItem("user_refresh_token", "blank");
+    clearUrlParameters();
+    signin();
+  }
+
   async function setUserInfo(data) {
-    const profilePic = document.getElementById("userPicture");
+    const profilePic = document.getElementById("userPic");
     const profileName = document.getElementById("userName");
     const profileEmail = document.getElementById("userEmail");
     if (data.picture) {

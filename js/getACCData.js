@@ -1,6 +1,6 @@
 async function updateRevisionTextInput() {
     const dropdown = document.getElementById('input_folder');
-    const revisionInput = document.getElementById('input_RevisionsCode');
+    const revisionInput = document.getElementById('input_RevisionsCode_deliverables');
     const selectedValue = dropdown.value;
     //console.log(selectedValue)
 
@@ -38,7 +38,7 @@ async function updateStatusTextInput() {
 
 async function populateFolderDropdown(folderArray,ProjectPin) {
     console.log(folderArray)
-    const dropdown = document.getElementById('input_folder');
+    const dropdown = document.getElementById('input_folder_deliverable');
     uploadfolders = deliverableFolders.filter(item => {
         return (item.folderPath.includes("WIP")) || item.folderPath.includes("SHARED");
     });
@@ -78,9 +78,9 @@ async function populateFolderDropdown(folderArray,ProjectPin) {
     };
     }
 
-function populateStatusDropdown() {
+function populateStatusDropdown(type) {
 
-    const dropdown = document.getElementById('input_Status');
+    const dropdown = document.getElementById(`input_Status_${type}`);
     // Check if dropdown element exists
     if (dropdown) {
         // Clear existing options
@@ -196,7 +196,7 @@ function generateDocName(){
     varDocNumber_Full = varDocNumber_noNum+"-"+newNumber
     console.log('New Document Number: ', varDocNumber_Full);
     sessionStorage.setItem('generatedName',varDocNumber_Full.toString())
-    document.getElementById("DocNumber").value = varDocNumber_Full.toString()
+    document.getElementById("DocNumber_deliverable").value = varDocNumber_Full.toString()
 
     populateClassificationDropdown()
     }
@@ -233,6 +233,10 @@ async function getTemplateFiles(){
         dropdownTemplateList.appendChild(optionElement);
 
     });
+    dropdownTemplateList.addEventListener('change', (event) => {
+        const selectedValue = event.target.value;
+        completeStep(1,'main')
+      });
 
     }
 
@@ -808,7 +812,7 @@ async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
         
 async function getNamingStandardID(folderArray){
     wipFolderID = folderArray.filter(item => {
-        return item.folderPath.includes("0C.WIP/KEL") || item.folderPath.includes("0C.WIP/A")
+        return item.folderPath.includes("0C.WIP / KEL") || item.folderPath.includes("0C.WIP / A")
     })
     console.log("Keltrbay WIP Folder for NS",wipFolderID[0]);
     defaultFolder = wipFolderID[0].folderID
@@ -923,7 +927,7 @@ function populateClassificationDropdown() {
         index === self.findIndex((item) => item.code === obj.code)
     );
     console.log('classificationData',uniqueArray)
-    const searchInput = document.getElementById('input_Classification');
+    const searchInput = document.getElementById('input_Classification_deliverable');
     const selectOptions = document.getElementById('selectOptions');
 
 

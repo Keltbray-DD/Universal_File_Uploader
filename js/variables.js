@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.1.8";
+const appVersion = "v1.2.1";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -13,6 +13,7 @@ let ProjectFiles = [];
 let projectFolders;
 let deliverableFolders = [];
 let folderData = [];
+let mappingData
 
 const StatesList = [
   { code: "A4", description: "Accepted Design", folder: "PUBLISHED" },
@@ -177,9 +178,24 @@ let userProjectRoles;
 let userCompany;
 let isAdmin;
 
+let uploadType
+let selectedFile
+
 let storedFolderArray
 
 let projectsArray;
+
+let folderPath
+let fileName
+let fileDescription
+let titleLine1
+let titleLine2
+let titleLine3
+let titleLine4
+let fileStatus 
+let fileRevision 
+let fileClassification 
+let fileDocumentClassification
 
 document.addEventListener("DOMContentLoaded", function () {
   uploadbutton = document.getElementById("viewfile_btn");

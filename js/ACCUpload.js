@@ -1,22 +1,40 @@
 
 
-function runUpload(){
+async function runUpload(){
     // Get the value of the username and password fields
-    const DocNumber = document.getElementById('DocNumber').value;
-    const input_folder = document.getElementById('input_folder').value;
-    const input_title = document.getElementById('input_title').value;
-    const input_Description = document.getElementById('input_Description').value;
-    const input_RevisionsCode = document.getElementById('input_RevisionsCode').value;
-    const input_Status = document.getElementById('input_Status').value;
-    const input_file_template = document.getElementById('input_file_template').value;
-    const input_file_origin = document.getElementById('input_file_origin').value;
-    const fileInput = document.getElementById('fileInput');
-    const input_classification = document.getElementById('input_Classification').value;
+    let input_fileName
+    let input_folder
+    let input_title
+    let input_Description
+    let input_RevisionsCode
+    let input_Status
+    let input_file_template = document.getElementById('input_file_template').value;
+    let input_file_origin = document.getElementById('input_file_origin').value;
+    let fileInput = document.getElementById('fileInput');
+    let input_classification
 
+  if(uploadType == 'deliverable'){
+    input_fileName = document.getElementById('DocNumber_deliverable').value;
+    input_folder = document.getElementById('input_folder_deliverable').value;
+    input_title = document.getElementById('input_title_deliverable').value;
+    input_Description = document.getElementById('input_Description_deliverable').value;
+    input_RevisionsCode = document.getElementById('input_RevisionsCode_deliverable').value;
+    input_Status = document.getElementById('input_Status_deliverable').value;
+    input_classification = document.getElementById('input_Classification_deliverable').value;
+  }
+  else{
+    input_fileName = document.getElementById('input_fileName_non_deliverable').value;
+    input_folder = folderPath
+    input_title = document.getElementById('input_title_non_deliverable').value;
+    input_Description = document.getElementById('input_Description_non_deliverable').value;
+    input_RevisionsCode = document.getElementById('input_RevisionsCode_non_deliverable').value;
+    input_Status = document.getElementById('input_Status_non_deliverable').value;
+    //input_classification = document.getElementById('input_Classification_non_deliverable').value;
+  }
     // Check if the username field is empty
-    if (!DocNumber.trim()) {
+    if (!input_fileName.trim()) {
         // Alert the user if the username field is empty
-        alert('Please generate a document number');
+        alert('Please generate a document number or enter a file name');
         return; // Exit the function
     }
     // Check if the password field is empty
@@ -56,11 +74,11 @@ function runUpload(){
         alert('Please select an upload origin');
         return; // Exit the function
     }
-    if (!input_classification.trim()) {
-      // Alert the user if the username field is empty
-      alert('Please select a classification for the file');
-      return; // Exit the function
-  }
+  //   if (!input_classification.trim()) {
+  //     // Alert the user if the username field is empty
+  //     alert('Please select a classification for the file');
+  //     return; // Exit the function
+  // }
   // Check if the password field is empty
   if(originSelectionDropdown.value === "Template Folder" && !input_file_template.trim()){
 
@@ -85,11 +103,28 @@ function runUpload(){
           return; // Exit the function
       }
   }
-
+ await setValues(uploadType)
   
   uploadbutton.disabled = true
-  const dropdown = document.getElementById('input_folder');
-  uploadFolderID = dropdown.value
+
+  if(uploadType == 'non_deliverable'){
+    const accPath = folderPath
+
+    const match = folderList_Main.find(item => item.folderPath === accPath);
+
+    const folderID = match ? match.folderID : null;
+if(!folderID){
+  alert(`Target folder path does not existi in your project (${folderPath}), please contact you projects Document Controller to create it`)
+}
+    console.log(folderID); // "abc123" or null if not found
+    uploadFolderID = folderID 
+    // return
+
+  }else{
+    const dropdown = document.getElementById('input_folder_deliverable');
+    uploadFolderID = dropdown.value
+  }
+
   if(originSelectionDropdown.value === "Template Folder"){
       templateDropdown = document.getElementById('input_file_template')
       // Get the selected index
@@ -100,7 +135,7 @@ function runUpload(){
 
       // Get the inner text of the selected option
       const selectedOptionText = selectedOption.innerText;
-      filename = sessionStorage.getItem('generatedName')+"."+getFileExtension(selectedOptionText)
+      filename = fileName+"."+getFileExtension(selectedOptionText)
 
   }else if(originSelectionDropdown.value === "Your computer"){
 
@@ -137,12 +172,11 @@ async function getCustomDetailsData(){
   titleline3ID = await findObjectByName("Title Line 3",customAttributes)
   titleline4ID = await findObjectByName("Title Line 4",customAttributes)
   revisionCodeID = await findObjectByName("Revision",customAttributes)
-  revisionDescID = await findObjectByName("Revision Description",customAttributes)
   statusCodeID = await findObjectByName("Status",customAttributes)
   StatusCodeDescriptionID = await findObjectByName("Status Code Description",customAttributes)
+  DocClassificationID = await findObjectByName("Document Classification",customAttributes)
   ClassificationID = await findObjectByName("Classification",customAttributes)
   FileDescriptionID = await findObjectByName("File Description",customAttributes)
-  StateID = await findObjectByName("State",customAttributes)
   DeliverableID = await findObjectByName("Deliverable",customAttributes)
 
   console.log('titlelineID',titlelineID)
@@ -150,12 +184,11 @@ async function getCustomDetailsData(){
   console.log('titleline3ID',titleline3ID)
   console.log('titleline3ID',titleline4ID)
   console.log('revisionCodeID',revisionCodeID)
-  console.log('revisionDescID',revisionDescID)
   console.log('statusCodeID',statusCodeID)
   console.log('StatusCodeDescriptionID',StatusCodeDescriptionID)
+  console.log('DocClassificationID',DocClassificationID)
   console.log('ClassificationID',ClassificationID)
   console.log('FileDescriptionID',FileDescriptionID)
-  console.log('StateID',StateID)
   console.log('DeliverableID',DeliverableID)
 }
 
@@ -537,57 +570,43 @@ async function getItemDetails(AccessToken){
   }
 
 async function postCustomItemDetails(AccessToken){
-  if($("#input_Classification").val()===""){
+  if($("#input_Classification_deliverable").val()===""){
       classValue = ""
   }else{
-      classValue = $("#input_Classification").val()
+      classValue = $("#input_Classification_deliverable").val()
   }
-  if($("#input_title2").val()===""){
-      title2Value = ""
-  }else{
-      title2Value = $("#input_title2").val()
-  }
-  if($("#input_title3").val()===""){
-      title3Value = ""
-  }else{
-      title3Value = $("#input_title3").val()
-  }
-  if($("#input_title4").val()===""){
-      title4Value = ""
-  }else{
-      title4Value = $("#input_title4").val()
-  }
+
   //console.log("SD",$("#input_StatusDesc").val())
   const bodyData = [
       {
           // Title Line 1
         "id": titlelineID.id,
-        "value": $("#input_title").val()
+        "value": titleLine1
       },
       {
           // Title Line 2
         "id": titleline2ID.id,
-        "value": $("#input_title2").val()
+        "value": titleLine2
       },
       {
           // Title Line 3
         "id": titleline3ID.id,
-        "value": $("#input_title3").val()
+        "value":titleLine3
       },
       {
           // Title Line 4
         "id": titleline4ID.id,
-        "value": $("#input_title4").val()
+        "value": titleLine4
       },
       {
           // Revision Code
         "id": revisionCodeID.id,
-        "value": $("#input_RevisionsCode").val()
+        "value": fileRevision
       },
       {
           // Status Code
         "id": statusCodeID.id,
-        "value": $("#input_Status").val()
+        "value": fileStatus
       },
       {
            // Status Description
@@ -597,13 +616,13 @@ async function postCustomItemDetails(AccessToken){
       {
            // Status Description
         "id": FileDescriptionID.id,
-        "value": $("#input_Description").val()
+        "value": fileDescription
       },
-      {
-        // Status Description
-     "id": DeliverableID.id,
-     "value": $("#input_Deliverable").val()
-   }
+  //     {
+  //       // Status Description
+  //    "id": DeliverableID.id,
+  //    "value": $("#input_Deliverable").val()
+  //  }
     ];
 
   const headers = {
@@ -795,7 +814,7 @@ function updateProgressBar(){
 function renameFile(input) {
   if (input.files && input.files.length > 0) {
       var file = input.files[0];
-      var newName = $("#DocNumber").val()+"."+fileExtension; // New filename
+      var newName = fileName+"."+fileExtension; // New filename
       var newFile = new File([file], newName, { type: file.type });
       console.log(newFile)
       // Replace the original file with the renamed file in the file input
@@ -807,7 +826,7 @@ function renameFile(input) {
 function renameFileDrop(input) {
 
       var file = input.file;
-      var newName = $("#DocNumber").val()+"."+fileExtension; // New filename
+      var newName = fileName+"."+fileExtension; // New filename
       var newFile = new File([file], newName);
 
       // Replace the original file with the renamed file in the file input
