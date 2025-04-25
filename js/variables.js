@@ -15,6 +15,12 @@ let deliverableFolders = [];
 let folderData = [];
 let mappingData
 
+const legacyProjectList = [
+  '7c7ca0c5-bfc3-4ef1-9396-c72c6270f457', // SHEAF
+  '2e6449f9-ce25-4a9c-8835-444cb5ea03bf', // SSE-GSP
+  '76c59b97-feaf-413c-9bd0-43cf8aaa3133' // A66
+]
+
 const StatesList = [
   { code: "A4", description: "Accepted Design", folder: "PUBLISHED" },
   { code: "A5", description: "Accepted For Construction", folder: "PUBLISHED" },

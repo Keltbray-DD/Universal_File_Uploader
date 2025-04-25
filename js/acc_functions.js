@@ -80,7 +80,12 @@ function displayProjects(projectList) {
             sessionStorage.setItem('projectID',projectID);
             sessionStorage.setItem('projectName', project.name)
             console.log('Selected Project ID:', sessionStorage.getItem('projectID'));
-            window.location.href = 'uploaderV2.html'; // Navigate to the next page
+            if(legacyProjectList.includes(projectID)){
+                window.location.href = 'legacyUploader.html'; // Navigate to the next page
+            }else{
+                window.location.href = 'uploaderV2.html'; // Navigate to the next page
+            }
+            
         });
     });
 }
