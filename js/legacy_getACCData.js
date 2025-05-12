@@ -674,8 +674,7 @@ async function getAllACCFolders(startfolder_list){
             console.log("Error: Getting Read Access Token");
         }
         getRate = 0;
-            
-        folderList_Main = []
+
         statusUpdateLoading.textContent = "Getting Folders..."
         project_Name = sessionStorage.getItem('projectName')
         await sortFolderList()
@@ -738,17 +737,45 @@ async function getAllACCFolders(startfolder_list){
 
     async function sortFolderList() {
         try{
+            let templateFolder
             folderData = await getFolderListFromSP()
-            deliverableFolders = JSON.parse(folderData.data[0].folder_array_deliverables)
-            folderList_Main= JSON.parse(folderData.data[0].folder_array)
-            uploadfolders = JSON.parse(folderData.data[0].upload_folders)
-            let templateFolder = JSON.parse(folderData.data[0].templateFolder)
-            console.log('SP_List_templateFolder',templateFolder)
-            templateFolderID = templateFolder[0].folderID
-            console.log('SP_List_deliverableFolders',deliverableFolders)
-            console.log('SP_List_folderList_Main',folderList_Main)
-            console.log('SP_List_uploadfolders',uploadfolders)
-            console.log('SP_List_templateFolderID',templateFolderID)
+            if(folderData.type === "framework"){
+                console.log(100)
+                folderData.data.forEach(element => {
+                    const temp1 = JSON.parse(element.folder_array_deliverables)
+                    const temp2 = JSON.parse(element.folder_array)
+                    const temp3 = JSON.parse(element.upload_folders)
+
+                    deliverableFolders.push(temp1)
+                    folderList_Main.push(temp2)
+                    uploadfolders.push(temp3)
+                    
+                });
+
+                deliverableFolders = deliverableFolders.flat()
+                folderList_Main = folderList_Main.flat()
+                uploadfolders = uploadfolders.flat()
+
+                console.log('SP_List_deliverableFolders',deliverableFolders)
+                console.log('SP_List_folderList_Main',folderList_Main)
+                console.log('SP_List_uploadfolders',uploadfolders)
+                console.log('SP_List_templateFolder',templateFolder)
+
+                templateFolder = JSON.parse(folderData.data[0].templateFolder)
+                templateFolderID = templateFolder[0].folderID
+            }else{
+                deliverableFolders = JSON.parse(folderData.data[0].folder_array_deliverables)
+                folderList_Main= JSON.parse(folderData.data[0].folder_array)
+                uploadfolders = JSON.parse(folderData.data[0].upload_folders)
+                templateFolder = JSON.parse(folderData.data[0].templateFolder)
+                console.log('SP_List_templateFolder',templateFolder)
+                templateFolderID = templateFolder[0].folderID
+                console.log('SP_List_deliverableFolders',deliverableFolders)
+                console.log('SP_List_folderList_Main',folderList_Main)
+                console.log('SP_List_uploadfolders',uploadfolders)
+                console.log('SP_List_templateFolderID',templateFolderID)
+            }
+
         } catch {
             console.log("Error: Geting folder list");
             console.error()

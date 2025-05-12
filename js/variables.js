@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.3.0";
+const appVersion = "v1.3.1";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -13,6 +13,8 @@ let ProjectFiles = [];
 let projectFolders;
 let deliverableFolders = [];
 let folderData = [];
+let folderList_Main = [];
+let uploadfolders =[];
 let mappingData
 
 const legacyProjectList = [
