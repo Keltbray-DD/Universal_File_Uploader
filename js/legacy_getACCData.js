@@ -183,14 +183,14 @@ function generateDocName(){
         const nextNumber = maxNumber + 1;
 
         // Pad the next number with zeros and set the fixed length to 6
-        const paddedNextNumber = String(nextNumber).padStart(6, '0');
+        const paddedNextNumber = String(nextNumber).padStart(maxNsNumber, '0');
 
         console.log('Next number with padded zeros and fixed length 6:', paddedNextNumber);
 
         newNumber = paddedNextNumber
     } else {
         console.log(`No partial match '${varDocNumber_noNum}' found in the array.`);
-        newNumber = "000001"
+        newNumber = padNumber(1, maxNsNumber)
     }
 
     varDocNumber_Full = varDocNumber_noNum+"-"+newNumber
@@ -199,6 +199,10 @@ function generateDocName(){
     document.getElementById("DocNumber").value = varDocNumber_Full.toString()
 
     populateClassificationDropdown()
+    }
+
+    function padNumber(number, maxLength) {
+        return String(number).padStart(maxLength, '0');
     }
 
 async function getTemplateFiles(){
@@ -359,7 +363,8 @@ async function getNamingStandard() {
         dropdownContainerDiscipline.appendChild(optionElement);
     });
 
-
+const nsNumber = namingstandard.find(item => item.name === "Number")
+    maxNsNumber = nsNumber ? nsNumber.maxLength : 6;
 
     //console.log(namingstandard)
     console.log('Project Pin',arrayprojectPin)
@@ -368,6 +373,7 @@ async function getNamingStandard() {
     console.log('Spatial',arraySpatial)
     console.log('Form',arrayForm)
     console.log('Discipline',arrayDiscipline)
+    console.log('maxNsNumber',maxNsNumber)
     }
 
 async function getfileslist(projectPin) {
