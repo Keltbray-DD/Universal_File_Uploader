@@ -3,7 +3,7 @@ window.addEventListener("load", () => {
     projectName = sessionStorage.getItem('projectName')
     document.title = `${projectName} File Uploader`;
     document.getElementById("titleBox").innerHTML = `<h1>${projectName}</h1><hr class="divider"><br><h3> ACC File Uploader</h3>`;
-    toggleStep(0)
+    // toggleStep(0)
     document.getElementById("appInfo").textContent = `${appName} ${appVersion}`;
     fileLookup_Input = document.getElementById('fileLookup_Input')
     existingCheckModal= document.getElementById("existingCheckModal")
