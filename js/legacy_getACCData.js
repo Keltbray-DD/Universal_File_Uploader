@@ -163,7 +163,7 @@ function generateDocName(){
     selectedForm = arrayForm.find(item => item.value === Form.value)
     //populateFolderDropdown(deliverableFolders,ProjectPin)
 
-    const PartialMatch = filelist.filter(item => item.includes(varDocNumber_noNum));
+    const PartialMatch = filelist.filter(item => item.name.includes(varDocNumber_noNum));
 
     if (PartialMatch.length >=1) {
         console.log(`Partial match '${varDocNumber_noNum}' found in the array.`);
@@ -393,6 +393,7 @@ async function getfileslist(projectPin) {
     //}
     
     try {
+        filelist = [];
         for (const folder of searchFolders) {
             try {
                 if (getRate >= 290) {
@@ -410,8 +411,19 @@ async function getfileslist(projectPin) {
             } catch (error) {
                 console.error("Error getting folder items:", error);
             }
+            for (let index = 0; index < filelist_temp.data.length; index++) {
+                const element = filelist_temp.data[index];
+                filelist.push(
+                {
+                    name:element.attributes.displayName,
+                    folderPath:folder.folderPath,
+                    itemId:element.id,
+                    folderId:folder.folderID,
+                }
+            )
+            }
             
-            filelist = filelist.concat(filelist_temp.data.map(item => item.attributes.displayName))
+            // filelist = filelist.concat(filelist_temp.data.map(item => item.attributes.displayName))
         }
 
     } catch (error) {

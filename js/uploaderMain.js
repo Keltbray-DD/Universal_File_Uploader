@@ -3,7 +3,7 @@ window.addEventListener("load", () => {
     projectName = sessionStorage.getItem('projectName')
     document.title = `${projectName} File Uploader`;
     document.getElementById("titleBox").innerHTML = `<h1>${projectName}</h1><hr class="divider">`;
-    toggleStep(1,'main')
+    toggleStep(0,'main')
     document.getElementById("appInfo").textContent = `${appName} ${appVersion}`;
     dropdown = document.getElementById("dropdownMenu");
 

@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const logoutButton = document.getElementById('logoutBtn');
 
     // Add an event listener for the button click event
-    logoutButton.addEventListener('click', function() {
-        signOut()
-    })
+    // logoutButton.addEventListener('click', function() {
+    //     signOut()
+    // })
 
 
 })

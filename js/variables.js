@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.3.2";
+const appVersion = "v1.3.3";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -143,6 +143,7 @@ let filename;
 let droppedfile;
 let uploadfile;
 let varDocNumber_Full;
+let fileLookup_Input;
 
 let titlelineID;
 let revisionCodeID;

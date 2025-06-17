@@ -990,3 +990,56 @@ input[type="checkbox"]:focus {
   .dropdown-docType div:hover {
     background-color: #f0f0f0;
   }
+
+  .buttonOptions{
+    display: flex;
+    width: 100%;
+  }
+
+  .buttonOptions button:hover{
+    border-bottom: 3px solid rgb(7, 197, 7);
+    transform: scale(1.02);
+}
+
+  .buttonOptions button{
+    margin: auto;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px;
+    border: 0;
+    border-bottom: 3px solid #2980b9;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+
+#existingCheckModal{
+    color: #45a049;
+    cursor: pointer;
+}
+
+.fileLookup_Result{
+        display: none;
+    width: 100%;
+}
+
+.fileLookup_Result button{
+    margin: auto;
+    width: 100%;
+    cursor: pointer;
+    padding: 5px;
+    border: 0;
+    border-bottom: 3px solid #2980b9;
+}
+
+  .fileLookup_Result button:hover{
+    border-bottom: 3px solid rgb(7, 197, 7);
+    transform: scale(1.02);
+}
