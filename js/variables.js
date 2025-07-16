@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.3.4";
+const appVersion = "v1.4.0";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -168,7 +168,10 @@ let fileExtension;
 let maxChars = 80;
 let progressCount = 0;
 let uploadbutton;
+let afterUpload_btn_container;
+let beforeUpload_btn_container;
 let originSelectionDropdown;
+let doc_search_dropdown;
 let templateDropdwon;
 let copyURN;
 let copyURN_Raw;
@@ -207,8 +210,14 @@ let fileRevision
 let fileClassification 
 let fileDocumentClassification
 
+let deliverable_yes_radio
+let deliverable_no_radio
+
 document.addEventListener("DOMContentLoaded", function () {
-  uploadbutton = document.getElementById("viewfile_btn");
+  uploadbutton = document.getElementById("uploadfile_btn");
+  afterUpload_btn_container = document.getElementById("afterUpload_btn_container");
+  beforeUpload_btn_container = document.getElementById("beforeUpload_btn_container");
+  loadingScreen = document.getElementById("loadingScreen");
   originSelectionDropdown = document.getElementById("input_file_origin");
   droparea = document.getElementById("drop-area");
   templateDropdwon = document.getElementById("templatesDropdown");

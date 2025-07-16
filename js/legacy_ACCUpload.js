@@ -592,7 +592,7 @@ async function postCustomItemDetails(AccessToken){
       {
            // Status Description
         "id": ClassificationID.id,
-        "value": classValue
+        "value": classValue || ''
       },
       {
            // Status Description

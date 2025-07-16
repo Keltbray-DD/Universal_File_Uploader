@@ -35,6 +35,41 @@
     
         return responseData
     }
+
+async function getProjectDetails(access_token,projectId) {
+    // const bodyData = {
+    //     'userID': userID,
+    //     'requestType':'fileUploader'
+    //     };
+
+    const headers = {
+        'Content-Type':'application/json',
+        'Authorization':`Bearer ${access_token}`
+    };
+
+    const requestOptions = {
+        method: 'GET',
+        headers: headers,
+        body: JSON.stringify(bodyData)
+    };
+
+    const apiUrl = `https://developer.api.autodesk.com/construction/admin/v1/projects/${projectId}`;
+    //console.log(apiUrl)
+    //console.log(requestOptions)
+    responseData = await fetch(apiUrl,requestOptions)
+        .then(response => response.json())
+        .then(data => {
+            const JSONdata = data
+
+        console.log(JSONdata)
+        
+        return JSONdata
+        })
+        .catch(error => console.error('Error fetching data:', error));
+
+
+    return responseData
+}
     
 async function loadProjects() {
     projectsArray = await fetchProjects()
@@ -80,10 +115,14 @@ function displayProjects(projectList) {
             sessionStorage.setItem('projectID',projectID);
             sessionStorage.setItem('projectName', project.name)
             console.log('Selected Project ID:', sessionStorage.getItem('projectID'));
+
+            // Encode parameters for URL safety
+            const encodedProjectID = encodeURIComponent(projectID);
+
             if(legacyProjectList.includes(projectID)){
-                window.location.href = 'legacyUploader.html'; // Navigate to the next page
+                window.location.href = `legacyUploader.html?projectID=${encodedProjectID}`;
             }else{
-                window.location.href = 'uploaderV2.html'; // Navigate to the next page
+                window.location.href = `uploaderV2.html?projectID=${encodedProjectID}`;
             }
             
         });

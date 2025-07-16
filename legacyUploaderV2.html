@@ -179,20 +179,21 @@
                         </li>
                     </ul>
                     <div class="form-step1">
-                        <!-- Generate Button -->
-                        <div id="cid_2" class="form-button" data-layout="full">
-                            <button type="button" id="generate_btn" class="submitButton"
-                                onclick="generateDocName()">Generate File
-                                Name</button>
-                        </div>
+                        
                         <!-- Document Number-->
                         <div class="form-output" data-type="control_email" id="id_7"><label class="form-label"
                                 id="label_7" for="input_7" aria-hidden="false"> Generated File Name </label>
                             <input type="text" id="DocNumber_new" name="DocNumber_new" class="form-textbox" size="15" value=""
                                 data-component="last" aria-labelledby="label_6 sublabel_6_last" readonly>
                         </div>
+                        <!-- Generate Button -->
+                        <div id="cid_2" class="form-button" data-layout="full">
+                            <button type="button" id="generate_btn" class="docNo_Button"
+                                onclick="generateDocName()">Generate File
+                                Name</button>
+                        </div>
                     </div>
-                    <button class="nextButton" onclick="completeStep(2)">Next</button>
+                    <button id="step3_next_btn" class="nextButton" onclick="completeStep(2)">Next</button>
                 </div>
 
             </div>

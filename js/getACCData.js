@@ -38,7 +38,7 @@ async function updateStatusTextInput() {
 
 async function populateFolderDropdown(folderArray,ProjectPin) {
     console.log(folderArray)
-    const dropdown = document.getElementById('input_folder_deliverable');
+    const dropdown = document.getElementById('input_folder_main');
     uploadfolders = deliverableFolders.filter(item => {
         return (item.folderPath.includes("WIP")) || item.folderPath.includes("SHARED");
     });
@@ -80,7 +80,7 @@ async function populateFolderDropdown(folderArray,ProjectPin) {
 
 function populateStatusDropdown(type) {
 
-    const dropdown = document.getElementById(`input_Status_${type}`);
+    const dropdown = document.getElementById(`input_Status_main`);
     // Check if dropdown element exists
     if (dropdown) {
         // Clear existing options
@@ -198,7 +198,10 @@ function generateDocName(){
     sessionStorage.setItem('generatedName',varDocNumber_Full.toString())
     document.getElementById("DocNumber_deliverable").value = varDocNumber_Full.toString()
 
-    populateClassificationDropdown()
+    // populateClassificationDropdown()
+
+    const fileNameNext_btn = document.getElementById('step3_next_btn');
+    fileNameNext_btn.disabled = false
     }
 
     function padNumber(number, maxLength) {

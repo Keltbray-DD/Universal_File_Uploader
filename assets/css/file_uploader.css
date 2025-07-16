@@ -117,13 +117,19 @@ body {
     font-weight: bold;
     cursor: pointer;
     transition: var(--transition);
-    display: inline-block;
+    display: flex;
+    margin-left: auto;
 }
 
 .step-content .nextButton:hover {
-    background: var(--secondary-color);
     transform: translateY(-2px);
 }
+
+.nextButton:disabled {
+    background-color: grey;
+    cursor:not-allowed
+}
+
 
 @keyframes slideDown {
     from {
@@ -165,8 +171,9 @@ body {
 }
 
 .form-button {
-    display: block;
+    display: flex;
     width: 30%;
+    margin-top: 10px;
 }
 
 .form-dropdown {
@@ -218,8 +225,8 @@ body {
 
 .form-output {
     display: block;
-    width: 70%;
-    margin: auto 20;
+    width: 100%;
+    margin-top: 10px;
 }
 
 label {
@@ -310,7 +317,7 @@ progress::-webkit-progress-value {
     transition: all 0.5s;
     will-change: transform;
     box-shadow: 0 0 5px #5192e7;
-    margin: auto;
+    margin: 10px auto;
 }
 
 .progress-bar-Sub__container {
@@ -415,6 +422,57 @@ input[type="submit"]:active {
     display: block;
     /* Make it a block element */
 
+    transition: background-color 0.3s;
+}
+
+.docNo_Button{
+    background-color: #4CAF50;
+    /* Green */
+    font-size: 16px;
+    text-align: center;
+    color: white;
+    padding: 12px 10px;
+    /* Adjust vertical padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 90%;
+    /* Set width to 50% */
+    margin: auto;
+    /* Center horizontally */
+    margin-bottom: 8px;
+    display: block;
+    /* Make it a block element */
+
+    transition: background-color 0.3s;
+}
+
+#beforeUpload_btn_container{
+    margin: auto;
+    display: flex;
+}
+
+#afterUpload_btn_container{
+    margin: auto;
+    display: none;
+}
+
+
+.afterUpload_btn {
+        background-color: #4CAF50;
+    /* Green */
+    font-size: 20px;
+    color: white;
+    padding: 12px 10px;
+    /* Adjust vertical padding */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 49%;
+    /* Set width to 50% */
+    margin: 10px auto;
+    /* Center horizontally */
+    display: block;
     transition: background-color 0.3s;
 }
 
@@ -1026,7 +1084,7 @@ input[type="checkbox"]:focus {
 }
 
 .fileLookup_Result{
-        display: none;
+    display: none;
     width: 100%;
 }
 
@@ -1042,4 +1100,15 @@ input[type="checkbox"]:focus {
   .fileLookup_Result button:hover{
     border-bottom: 3px solid rgb(7, 197, 7);
     transform: scale(1.02);
+}
+
+.radioButton-group{
+    margin-bottom: 15px;
+}
+
+#warning {
+    margin: 0;
+    margin-top: 2px;
+    color: red;
+    display: none;
 }

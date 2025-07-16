@@ -73,7 +73,7 @@
                     <div id="templatesDropdown" class="form-templates">
                         <label class="form-label form-label-top form-label-auto" id="label_file_template"
                             for="input_file_template" aria-hidden="false"> Select template to use </label>
-                        <select class="form-dropdown" id="input_file_template" onchange="updateRevisionTextInput()">
+                        <select class="form-dropdown" id="input_file_template">
                             <option value="">Select a template...</option>
                         </select>
                         <p>If a specific template is not available please contact your Project Information Manager </p>
@@ -87,12 +87,12 @@
                         <input type="file" id="fileInput" onchange="handleFileSelect(event)">
                     </div>
                     <div id="file-info"></div>
-                    <button class="nextButton" onclick="completeStep(1,'main')">Next</button>
+                    <button id="step1_next_btn"  class="nextButton" onclick="completeStep(1,'main')">Next</button>
                 </div>
             </div>
             <div class="step" id="step2_main">
                 <div class="step-header" onclick="toggleStep(2,'main')">
-                    <h3 class="form-heading">Step 2. Search for documents type</h3>
+                    <h3 class="form-heading">Step 2. Search for file type</h3>
                     <span class="step-status" id="status2_main">Pending</span>
                 </div>
                 <div class="step-content">
@@ -107,105 +107,274 @@
                             </select> -->
                           </div>
                     </div>
-                    <div class="container dropdown-docType" id="dropdownMenu"></div>
+                    <div class="container dropdown-docType" id="doc_search_dropdown"></div>
 
                 </div>
             </div>
-<div id="deliverables" class="hidden">
+            <div class="step" id="step3_main">
+                <div class="step-header" onclick="toggleStep(3,'main')">
+                    <h3 class="form-heading">Step 3. File Name</h3>
+                    <span class="step-status" id="status3_main">Pending</span>
+                </div>
+                <div class="step-content">
+                    <label class="form-label form-label-top form-label-auto">
+                        Is your file a deliverable? (Will it be sent to the client)
+                    </label>
+                    <div class="radioButton-group">
+                        <div>
+                            <input type="radio" name="deliverable" id="deliverable_yes">
+                            <label for="deliverable_yes">Yes</label>
+                        </div>
+                        <div >
+                            <input type="radio" name="deliverable" id="deliverable_no">
+                            <label for="deliverable_no">No</label>
+                        </div>
+                    </div>
+                    
+                                    <div>
+                    <div class="step-content" id="fileName_generate">
+
+                        <!-- Project PIN Input-->
+                        <ul class="form-step1">
+                            <li class="form-line" data-type="control_dropdown" id="id_5"><label class="form-label"
+                                    id="label_ProjectPin" for="ProjectPin_input" aria-hidden="false"> Project PIN </label><i
+                                    class="fa-regular fa-circle-question" value="Project Pin"></i>
+                                <div id="cid_5" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="ProjectPin_input" name="" data-component="ProjectRole"
+                                        >
+                                    </select>
+                                </div>
+                            </li>
+                            <!-- Originator Input-->
+                            <li class="form-line" data-type="control_dropdown" id="id_5"><label
+                                    class="form-label form-label-top form-label-auto" id="label_Originator" for="Originator_input"
+                                    aria-hidden="false">
+                                    Originator </label><i class="fa-regular fa-circle-question" value="Originator"></i>
+                                <div id="cid_Originator" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="Originator_input" name="" data-component="ProjectRole"
+                                        disabled>
+                                    </select>
+                                </div>
+                            </li>
+                            <!-- Function Input-->
+                            <li class="form-line" data-type="control_dropdown" id="id_Function"><label
+                                    class="form-label form-label-top form-label-auto" id="label_Function" for="Function_input"
+                                    aria-hidden="false">
+                                    Function </label><i class="fa-regular fa-circle-question" value="Function"></i>
+                                <div id="cid_Function" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="Function_input" name="" data-component="ProjectRole"
+                                        >
+                                    </select>
+                                </div>
+                            </li>
+                            <!-- Spatial Input-->
+                            <li class="form-line" data-type="control_dropdown" id="id_Spatial"><label
+                                    class="form-label form-label-top form-label-auto" id="label_Spatial" for="Spatial_input"
+                                    aria-hidden="false">
+                                    Spatial </label><i class="fa-regular fa-circle-question" value="Spatial"></i>
+                                <div id="cid_Spatial" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="Spatial_input" name="" data-component="ProjectRole"
+                                        >
+                                    </select>
+                                </div>
+                            </li>
+                            <!-- Form Input-->
+                            <li class="form-line" data-type="control_dropdown" id="id_Form"><label
+                                    class="form-label form-label-top form-label-auto" id="label_Form" for="Form_input"
+                                    aria-hidden="false"> Form
+                                </label><i class="fa-regular fa-circle-question" value="Form"></i>
+                                <div id="cid_Form" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="Form_input" name="" data-component="ProjectRole"
+                                        >
+                                    </select>
+                                </div>
+                            </li>
+                            <!-- Discipline Input-->
+                            <li class="form-line" data-type="control_dropdown" id="id_Discipline"><label
+                                    class="form-label form-label-top form-label-auto" id="label_Discipline" for="Discipline_input"
+                                    aria-hidden="false">
+                                    Discipline </label><i class="fa-regular fa-circle-question" value="Discipline"></i>
+                                <div id="cid_Discipline" class="form-input-wide" data-layout="full">
+                                    <select class="form-dropdown" id="Discipline_input" name="" data-component="ProjectRole"
+                                        >
+                                    </select>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="form-step1">
+                            <!-- Document Number-->
+                            <div class="form-output" data-type="control_email" id="id_7"><label class="form-label"
+                                    id="label_7" for="input_7" aria-hidden="false"> Generated File Name </label>
+                                <input type="text" id="DocNumber_deliverable" name="DocNumber" class="form-textbox" size="15" value=""
+                                    data-component="last" aria-labelledby="label_6 sublabel_6_last">
+                            </div>
+                            <!-- Generate Button -->
+                            <div id="cid_2" class="form-button" data-layout="full">
+                                <button type="button" id="generate_btn" class="docNo_Button" onclick="generateDocName()">Generate File Name</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-content" id="fileName_manual">
+                        <ul class="form-step1">
+                            <li>
+                                <label class="form-label form-label-top form-label-auto" id="label_fileName_main" for="input_fileName_main"
+                                    aria-hidden="false"> File Name </label><i class="fa-regular fa-circle-question"
+                                    value="title"></i>
+                                <input type="text" id="input_fileName_non_deliverable" class="textInput">
+                                <div class="charCounterContainer">
+                                    <p class="charCount">0/80 characters</p>
+                                    <p class="error">You have reached the maximum character limit, please use next title line
+                                    </p>
+                                    <p id="warning">Invalid character detected! File names cannot contain: \ / : * ? "</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    <button id="step3_next_btn" class="nextButton" onclick="completeStep(3,'main')" disabled>Next</button>
+                </div>
+            </div>
+            <div class="step" id="step4_main">
+                <div class="step-header" onclick="toggleStep(4,'main')">
+                    <h3 class="form-heading">Step 4. Add Attribute data to file</h3>
+                    <span class="step-status" id="status4_main">Pending</span>
+                </div>
+                <div class="step-content">
+                    <label class="form-label form-label-top form-label-auto" id="label_subheading1_main" aria-hidden="false">
+                        Please
+                        populate all marked (*) fields </label>
+                    <div class="toggle-container">
+                        <div class="toggle-header" data-target="titles">
+                            <p>View all titles</p>
+                            <span class="arrow right"></span>
+                        </div>
+                    </div>
+                    <ul class="form-step1">
+                        <li>
+                            <label class="form-label form-label-top form-label-auto" id="label_title_main" for="input_title_main"
+                                aria-hidden="false"> Title Line 1* </label><i class="fa-regular fa-circle-question"
+                                value="title"></i>
+                            <input type="text" id="input_title_main" class="textInput">
+                            <div class="charCounterContainer">
+                                <p class="charCount">0/80 characters</p>
+                                <p class="error">You have reached the maximum character limit, please use next title
+                                    line
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div id="titles_main" class="additional-titles hidden">
+                        <ul class="form-step2">
+                            <li>
+                                <label class="form-label form-label-top form-label-auto" id="label_title2_main"
+                                    for="input_title2" aria-hidden="false"> Title Line 2 </label>
+                                <input type="text" id="input_title2_main" class="textInput">
+                                <div class="charCounterContainer">
+                                    <p class="charCount">0/80 characters</p>
+                                    <p class="error">You have reached the maximum character limit, please use next title
+                                        line</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="form-step2">
+                            <li>
+                                <label class="form-label form-label-top form-label-auto" id="label_title3_main"
+                                    for="input_title3" aria-hidden="false"> Title Line 3 </label>
+                                <input type="text" id="input_title3_main" class="textInput">
+                                <div class="charCounterContainer">
+                                    <p class="charCount">0/80 characters</p>
+                                    <p class="error">You have reached the maximum character limit, please use next title
+                                        line</p>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="form-step2">
+                            <li>
+                                <label class="form-label form-label-top form-label-auto" id="label_title4_main"
+                                    for="input_title4" aria-hidden="false"> Title Line 4 </label>
+                                <input type="text" id="input_title4_main" class="textInput">
+                                <div class="charCounterContainer">
+                                    <p class="charCount">0/80 characters</p>
+                                    <p class="error">You have reached the maximum character limit!</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <ul class="form-step1">
+                        <li class="half">
+                            <label class="form-label form-label-top form-label-auto" id="label_RevisionsCode_main"
+                                for="input_RevisionsCode" aria-hidden="false"> Revision Code </label>
+                            <input type="text" id="input_RevisionsCode_main" value="P01.01">
+                        </li>
+
+                        <li>
+                            <label class="form-label form-label-top form-label-auto" id="label_Description_main"
+                                for="input_Description" aria-hidden="false"> File Description * </label><i
+                                class="fa-regular fa-circle-question" value="description"></i>
+                            <input type="text" id="input_Description_main">
+                        </li>
+                    </ul>
+                    <ul class="form-step1">
+                        <li>
+                            <label class="form-label form-label-top form-label-auto" id="label_Status_main"
+                                for="input_Status" aria-hidden="false"> Status Code </label>
+                            <select class="form-dropdown" id="input_Status_main" onchange="updateStatusTextInput()" disabled>
+                                <option value="">Select a status code...</option>
+                            </select>
+                        </li>
+                        <li>
+                            <label class="form-label form-label-top form-label-auto" id="label_Document_Classification_main"
+                                for="input_StatusDesc" aria-hidden="false"> Document Classification *</label><i
+                                class="fa-regular fa-circle-question" value="classification"></i>
+                            <select id="document_classification_main">
+                                <option value="Internal">Internal: Data for internal use only</option>
+                                <option value="Public">Public: Data accessible to all users</option>
+                                <option value="Restricted">Restricted: Data with limited access, requiring specific authorisation</option>
+                                <option value="Confidential">Confidential: Highly sensitive data requiring strict access controls</option>
+
+                            </select>
+                        </li>
+                    </ul>
+
+                    <button id="step4_next_btn"  class="nextButton" onclick="completeStep(4,'main')">Next</button>
+                </div>
+    </div>
+                <div class="step" id="step5_main">
+                <div class="step-header" onclick="toggleStep(5,'main')">
+                    <h3 class="form-heading">Summary</h3>
+                </div>
+                <div class="step-content">
+                    <div id="uploadSummary" class="summaryBox">
+
+                    </div>
+                    
+                    <div class="progress-bar__container">
+                        <div class="progress-bar-Main">
+                            <span class="progress-bar-Main__text">File uploaded successfully</span>
+                        </div>
+                    </div>
+                    <div id="beforeUpload_btn_container">
+                        <button type="button" id="uploadfile_btn" class="submitButton" onclick="runUpload()">Upload file to ACC</button>
+                        <i class="fa-regular fa-circle-question" value="uploadButton"></i>
+                    </div>
+                    <div id="afterUpload_btn_container">
+                        <button type="button" id="viewfile_btn" class="afterUpload_btn" onclick="viewFile()">View file on ACC</button>
+                        <button type="button" id="reloadButton" class="afterUpload_btn">Upload another file</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+<!-- <div id="deliverables" class="hidden">
     <div class="step" id="step3_deliverable">
         <div class="step-header" onclick="toggleStep(3,'deliverable')">
             <h3 class="form-heading">Step 3. Generate file name</h3>
             <span class="step-status" id="status3_deliverable">Pending</span>
         </div>
-        <div class="step-content">
+        
 
-            <!-- Project PIN Input-->
-            <ul class="form-step1">
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label class="form-label"
-                        id="label_5" for="input_5" aria-hidden="false"> Project PIN </label><i
-                        class="fa-regular fa-circle-question" value="Project Pin"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="ProjectPin_input" name="" data-component="ProjectRole"
-                            aria-label="Project PIN">
-                        </select>
-                    </div>
-                </li>
-                <!-- Originator Input-->
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label
-                        class="form-label form-label-top form-label-auto" id="label_5" for="input_5"
-                        aria-hidden="false">
-                        Originator </label><i class="fa-regular fa-circle-question" value="Originator"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="Originator_input" name="" data-component="ProjectRole"
-                            aria-label="Originator" disabled>
-                        </select>
-                    </div>
-                </li>
-                <!-- Function Input-->
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label
-                        class="form-label form-label-top form-label-auto" id="label_5" for="input_5"
-                        aria-hidden="false">
-                        Function </label><i class="fa-regular fa-circle-question" value="Function"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="Function_input" name="" data-component="ProjectRole"
-                            aria-label="Function">
-                        </select>
-                    </div>
-                </li>
-                <!-- Spatial Input-->
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label
-                        class="form-label form-label-top form-label-auto" id="label_5" for="input_5"
-                        aria-hidden="false">
-                        Spatial </label><i class="fa-regular fa-circle-question" value="Spatial"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="Spatial_input" name="" data-component="ProjectRole"
-                            aria-label="Spatial">
-                        </select>
-                    </div>
-                </li>
-                <!-- Form Input-->
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label
-                        class="form-label form-label-top form-label-auto" id="label_5" for="input_5"
-                        aria-hidden="false"> Form
-                    </label><i class="fa-regular fa-circle-question" value="Form"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="Form_input" name="" data-component="ProjectRole"
-                            aria-label="Form">
-                        </select>
-                    </div>
-                </li>
-                <!-- Discipline Input-->
-                <li class="form-line" data-type="control_dropdown" id="id_5"><label
-                        class="form-label form-label-top form-label-auto" id="label_5" for="input_5"
-                        aria-hidden="false">
-                        Discipline </label><i class="fa-regular fa-circle-question" value="Discipline"></i>
-                    <div id="cid_5" class="form-input-wide" data-layout="full">
-                        <select class="form-dropdown" id="Discipline_input" name="" data-component="ProjectRole"
-                            aria-label="Discipline">
-                        </select>
-                    </div>
-                </li>
-            </ul>
-            <div class="form-step1">
-                <!-- Generate Button -->
-                <div id="cid_2" class="form-button" data-layout="full">
-                    <button type="button" id="generate_btn" class="submitButton"
-                        onclick="generateDocName()">Generate File
-                        Name</button>
-                </div>
-                <!-- Document Number-->
-                <div class="form-output" data-type="control_email" id="id_7"><label class="form-label"
-                        id="label_7" for="input_7" aria-hidden="false"> Generated File Name </label>
-                    <input type="text" id="DocNumber_deliverable" name="DocNumber" class="form-textbox" size="15" value=""
-                        data-component="last" aria-labelledby="label_6 sublabel_6_last" readonly>
-                </div>
-            </div>
-            <button class="nextButton" onclick="completeStep(3,'deliverable')">Next</button>
-        </div>
+    </div> -->
 
-    </div>
-
-    <div class="step" id="step4_deliverable">
+    <div class="step hidden" id="step4_deliverable">
         <div class="step-header" onclick="toggleStep(4,'deliverable')">
             <h3 class="form-heading">Step 4. Select Upload Folder</h3>
             <span class="step-status" id="status4_deliverable">Pending</span>
@@ -216,7 +385,7 @@
                     <label class="form-label form-label-top form-label-auto" id="label_folder"
                         for="input_folder" aria-hidden="false"> Upload folder location </label><i
                         class="fa-regular fa-circle-question" value="uploadfolder"></i>
-                    <select class="form-dropdown" id="input_folder_deliverable" onchange="updateRevisionTextInput()"
+                    <select class="form-dropdown" id="input_folder_main" onchange=""
                         disabled>
                         <option value="">Select a folder...</option>
                     </select>
@@ -226,7 +395,7 @@
         </div>
     </div>
 
-    <div class="step" id="step5_deliverable">
+    <!-- <div class="step" id="step5_deliverable">
         <div class="step-header" onclick="toggleStep(5,'deliverable')">
             <h3 class="form-heading">Step 5. Populate metadata</h3>
             <span class="step-status" id="status5_deliverable">Pending</span>
@@ -329,7 +498,7 @@
                         class="fa-regular fa-circle-question" value="classification"></i>
                     <input type="text" id="input_Classification_deliverable" placeholder="Search...">
                     <div id="selectOptions" class="select-items">
-                        <!-- Options will be populated here -->
+                        
                     </div>
                 </li>
                 <li>
@@ -349,31 +518,18 @@
             <button class="nextButton" onclick="completeStep(5,'deliverable')">Next</button>
         </div>
 
-    </div>
+    </div> -->
 </div>
 
-<div id="non_deliverables" class="hidden">
-    <div class="step" id="step3_non_deliverable">
-        <div class="step-header" onclick="toggleStep(3,'non_deliverable')">
-            <h3 class="form-heading">Step 3. Populate metadata</h3>
-            <span class="step-status" id="status3_non_deliverable">Pending</span>
+<!-- <div id="non_deliverables" class="hidden">
+    <div class="step" id="step4_main">
+        <div class="step-header" onclick="toggleStep(4,'main')">
+            <h3 class="form-heading">Step 4. Populate metadata</h3>
+            <span class="step-status" id="status4">Pending</span>
         </div>
         <div class="step-content">
-            <ul class="form-step1">
-                <li>
-                    <label class="form-label form-label-top form-label-auto" id="label_fileName_non_deliverable" for="input_fileName_non_deliverable"
-                        aria-hidden="false"> File Name </label><i class="fa-regular fa-circle-question"
-                        value="title"></i>
-                    <input type="text" id="input_fileName_non_deliverable" class="textInput">
-                    <div class="charCounterContainer">
-                        <p class="charCount">0/80 characters</p>
-                        <p class="error">You have reached the maximum character limit, please use next title
-                            line
-                        </p>
-                    </div>
-                </li>
-            </ul>
-            <label class="form-label form-label-top form-label-auto" id="label_subheading1_non_deliverable" aria-hidden="false">
+
+            <label class="form-label form-label-top form-label-auto" id="label_subheading1_main" aria-hidden="false">
                 Please
                 populate all marked (*) fields </label>
             <div class="toggle-container">
@@ -384,10 +540,10 @@
             </div>
             <ul class="form-step1">
                 <li>
-                    <label class="form-label form-label-top form-label-auto" id="label_title_non_deliverable" for="input_title_non_deliverable"
+                    <label class="form-label form-label-top form-label-auto" id="label_title_main" for="input_title_main"
                         aria-hidden="false"> Title Line 1* </label><i class="fa-regular fa-circle-question"
                         value="title"></i>
-                    <input type="text" id="input_title_non_deliverable" class="textInput">
+                    <input type="text" id="input_title_main" class="textInput">
                     <div class="charCounterContainer">
                         <p class="charCount">0/80 characters</p>
                         <p class="error">You have reached the maximum character limit, please use next title
@@ -396,12 +552,12 @@
                     </div>
                 </li>
             </ul>
-            <div id="titles_non_deliverable" class="additional-titles hidden">
+            <div id="titles_main" class="additional-titles hidden">
                 <ul class="form-step2">
                     <li>
-                        <label class="form-label form-label-top form-label-auto" id="label_title2_non_deliverable"
+                        <label class="form-label form-label-top form-label-auto" id="label_title2_main"
                             for="input_title2" aria-hidden="false"> Title Line 2 </label>
-                        <input type="text" id="input_title2_non_deliverable" class="textInput">
+                        <input type="text" id="input_title2_main" class="textInput">
                         <div class="charCounterContainer">
                             <p class="charCount">0/80 characters</p>
                             <p class="error">You have reached the maximum character limit, please use next title
@@ -411,9 +567,9 @@
                 </ul>
                 <ul class="form-step2">
                     <li>
-                        <label class="form-label form-label-top form-label-auto" id="label_title3_non_deliverable"
+                        <label class="form-label form-label-top form-label-auto" id="label_title3_main"
                             for="input_title3" aria-hidden="false"> Title Line 3 </label>
-                        <input type="text" id="input_title3_non_deliverable" class="textInput">
+                        <input type="text" id="input_title3_main" class="textInput">
                         <div class="charCounterContainer">
                             <p class="charCount">0/80 characters</p>
                             <p class="error">You have reached the maximum character limit, please use next title
@@ -423,9 +579,9 @@
                 </ul>
                 <ul class="form-step2">
                     <li>
-                        <label class="form-label form-label-top form-label-auto" id="label_title4_non_deliverable"
+                        <label class="form-label form-label-top form-label-auto" id="label_title4_main"
                             for="input_title4" aria-hidden="false"> Title Line 4 </label>
-                        <input type="text" id="input_title4_non_deliverable" class="textInput">
+                        <input type="text" id="input_title4_main" class="textInput">
                         <div class="charCounterContainer">
                             <p class="charCount">0/80 characters</p>
                             <p class="error">You have reached the maximum character limit!</p>
@@ -435,31 +591,31 @@
             </div>
             <ul class="form-step1">
                 <li class="half">
-                    <label class="form-label form-label-top form-label-auto" id="label_RevisionsCode_non_deliverable"
+                    <label class="form-label form-label-top form-label-auto" id="label_RevisionsCode_main"
                         for="input_RevisionsCode" aria-hidden="false"> Revision Code </label>
-                    <input type="text" id="input_RevisionsCode_non_deliverable" value="P01.01" disabled>
+                    <input type="text" id="input_RevisionsCode_main" value="P01.01" disabled>
                 </li>
 
                 <li>
-                    <label class="form-label form-label-top form-label-auto" id="label_Description_non_deliverable"
+                    <label class="form-label form-label-top form-label-auto" id="label_Description_main"
                         for="input_Description" aria-hidden="false"> File Description * </label><i
                         class="fa-regular fa-circle-question" value="description"></i>
-                    <input type="text" id="input_Description_non_deliverable">
+                    <input type="text" id="input_Description_main">
                 </li>
             </ul>
             <ul class="form-step1">
                 <li>
-                    <label class="form-label form-label-top form-label-auto" id="label_Status_non_deliverable"
+                    <label class="form-label form-label-top form-label-auto" id="label_Status_main"
                         for="input_Status" aria-hidden="false"> Status Code </label>
-                    <select class="form-dropdown" id="input_Status_non_deliverable" onchange="updateStatusTextInput()" disabled>
+                    <select class="form-dropdown" id="input_Status_main" onchange="updateStatusTextInput()" disabled>
                         <option value="">Select a status code...</option>
                     </select>
                 </li>
                 <li>
-                    <label class="form-label form-label-top form-label-auto" id="label_Document_Classification_non_deliverable"
+                    <label class="form-label form-label-top form-label-auto" id="label_Document_Classification_main"
                         for="input_StatusDesc" aria-hidden="false"> Document Classification *</label><i
                         class="fa-regular fa-circle-question" value="classification"></i>
-                    <select id="document_classification_non_deliverable">
+                    <select id="document_classification_main">
                         <option value="Internal">Internal: Data for internal use only</option>
                         <option value="Public">Public: Data accessible to all users</option>
                         <option value="Restricted">Restricted: Data with limited access, requiring specific authorisation</option>
@@ -473,29 +629,8 @@
         </div>
 
     </div>
-</div>
-            <div class="step hidden" id="step6_main">
-                <div class="step-header" onclick="toggleStep(6,'main')">
-                    <h3 class="form-heading">Step 5. Upload file</h3>
-                    
-                </div>
-                <div class="step-content">
-                    <div id="uploadSummary">
+</div> -->
 
-                    </div>
-                    <button type="button" id="viewfile_btn" class="submitButton" onclick="runUpload()">Upload file to
-                        ACC</button><i class="fa-regular fa-circle-question"
-                        value="uploadButton"></i>
-                    <div class="progress-bar__container">
-                        <div class="progress-bar-Main">
-                            <span class="progress-bar-Main__text">File uploaded successfully</span>
-                        </div>
-                    </div>
-                    <button type="button" id="reloadButton" class="submitButton uploadNew">Upload another file</button>
-                </div>
-            </div>
-
-        </div>
     </section>
     <div id="feedback">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">

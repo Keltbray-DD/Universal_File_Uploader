@@ -1,14 +1,58 @@
-window.addEventListener("load", () => {
-    projectID = sessionStorage.getItem('projectID')
-    projectName = sessionStorage.getItem('projectName')
-    document.title = `${projectName} File Uploader`;
-    document.getElementById("titleBox").innerHTML = `<h1>${projectName}</h1><hr class="divider">`;
-    toggleStep(0,'main')
+document.addEventListener('DOMContentLoaded', async function() {
+  projectID = sessionStorage.getItem('projectID')
+    if(!projectID){
+      const urlParams = new URLSearchParams(window.location.search);
+      projectID = urlParams.get('projectID');
+      accessToken = await getAccessToken('scopeInput')
+      const projectData = await getProjectDetails(accessToken,projectID)
+      await populateTitles(projectData.name)
+    }else{
+      projectName = sessionStorage.getItem('projectName')
+      await populateTitles(projectName)
+    }
+    
+    async function populateTitles(projectName) {
+      document.title = `${projectName} File Uploader`;
+      document.getElementById("titleBox").innerHTML = `<h1>${projectName}</h1><hr class="divider">`;
+    }
+
     document.getElementById("appInfo").textContent = `${appName} ${appVersion}`;
-    dropdown = document.getElementById("dropdownMenu");
+    doc_search_dropdown = document.getElementById("doc_search_dropdown");
+    
+    await gatherArrays();
+    await toggleStep(1,'main')
+
+    deliverable_yes_radio = document.getElementById('deliverable_yes')
+    deliverable_no_radio = document.getElementById('deliverable_no')
+    // Add event listeners to radio buttons
+    deliverable_yes_radio.addEventListener('change', handleDeliverableRadioChange);
+    deliverable_no_radio.addEventListener('change', handleDeliverableRadioChange);
+
+
+  const input_ManualFileName = document.getElementById('input_fileName_non_deliverable');
+  const warning_ManualFileName = document.getElementById('warning');
+  const fileNameNext_btn = document.getElementById('step3_next_btn');
+
+  // Regex for invalid filename characters
+  const invalidChars = /[\\\/:*?"<>|]/;
+
+  input_ManualFileName.addEventListener('input', () => {
+    const value = input_ManualFileName.value;
+
+    if (invalidChars.test(value) || value.length === 0) {
+      warning_ManualFileName.style.display = invalidChars.test(value) ? 'block' : 'none';
+      input_ManualFileName.style.borderColor = invalidChars.test(value) ? 'red' : '';
+      fileNameNext_btn.disabled = true;
+    } else {
+      warning_ManualFileName.style.display = 'none';
+      input_ManualFileName.style.borderColor = '';
+      fileNameNext_btn.disabled = false;
+    }
+  });
+});
 
     // Show the loading screen
-    function showLoadingScreen() {
+    async function showLoadingScreen() {
         loadingScreen.style.display = 'flex';
     }
 
@@ -20,7 +64,7 @@ window.addEventListener("load", () => {
     // Simulate gathering arrays with a delay
     async function gatherArrays() {
 
-        showLoadingScreen(); // Show loading screen before gathering arrays
+        await showLoadingScreen(); // Show loading screen before gathering arrays
 
         accessTokenDataRead = await getAccessToken("data:read");
         mappingData = await geMappingData()
@@ -32,26 +76,57 @@ window.addEventListener("load", () => {
         await populateFolderDropdown(deliverableFolders)
         await getCustomDetailsData()
         //populateClassificationDropdown()
-
-        hideLoadingScreen();
+        
+        await hideLoadingScreen();
         //initialStep4SectionHTML = document.getElementById('step4').innerHTML
         //initialStep5SectionHTML = document.getElementById('step5').innerHTML
     }
 
-    gatherArrays();
-});
-document.addEventListener('DOMContentLoaded', async function() {
-    
-})
+    function handleDeliverableRadioChange(event,input) {
+      const x = input || event.target.id
+      const step3_btn = document.getElementById('step3_next_btn')
+      const DocNumber_deliverable = document.getElementById("DocNumber_deliverable")
+      const DocNumber_non_deliverable = document.getElementById("input_fileName_non_deliverable")
+
+      step3_btn.disabled = true
+
+      if (x === 'deliverable_yes') {
+      // Action when 'Yes' is selected
+        console.log('Yes selected');
+        document.getElementById('fileName_generate').style.display = 'block'
+        document.getElementById('fileName_manual').style.display = 'none'
+        uploadType = "deliverable"
+        if(DocNumber_deliverable.length > 0){
+          step3_btn.disabled = false
+        }
+      } else if (x === 'deliverable_no') {
+        // Action when 'No' is selected
+        console.log('No selected');
+        document.getElementById('fileName_manual').style.display = 'block'
+        document.getElementById('fileName_generate').style.display = 'none'
+        uploadType = "non_deliverable"
+        if(DocNumber_non_deliverable.length > 0){
+          step3_btn.disabled = false
+        }
+      }
+      populateStatusDropdown(uploadType)
+    }
     // Function to toggle visibility of step content
    async function toggleStep(stepNumber,type) {
-        const stepContent = document.querySelector(`#step${stepNumber}_${type} .step-content`);
-        const isVisible = stepContent.style.display === 'block';
-        stepContent.style.display = isVisible ? 'none' : 'block';
-        if(stepNumber == 6){
-            await setValues(uploadType)
-            await generateUploadSummary()
-        }
+  
+      const steps = document.querySelectorAll('.step-content');
+
+      steps.forEach(step => {
+        step.style.display = 'none';
+      });
+
+      const stepContent = document.querySelector(`#step${stepNumber}_${type} .step-content`);
+      const isVisible = stepContent.style.display === 'block';
+      stepContent.style.display = isVisible ? 'none' : 'block';
+      if(stepNumber == 5){
+          await setValues(uploadType)
+          await generateUploadSummary()
+      }
     }
 
     // Function to mark a step as complete
@@ -64,9 +139,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Minimize the step content
         const stepContent = document.querySelector(`#step${stepNumber}_${type} .step-content`);
         stepContent.style.display = 'none';
-        if(stepNumber == 4 && type == 'deliverable'){
-            populateFolderDropdown(deliverableFolders);
-        }
+        // if(stepNumber == 4 && type == 'deliverable'){
+        //     populateFolderDropdown(deliverableFolders);
+        // }
         // Expand the next step (if it exists)
         const nextStep = document.getElementById(`step${stepNumber + 1}`);
         if (nextStep) {
@@ -74,15 +149,14 @@ document.addEventListener('DOMContentLoaded', async function() {
             nextContent.style.display = 'block';
         }
 
-        if((stepNumber == 3 && type == 'non_deliverable') || (stepNumber == 5 && type == 'deliverable')){
-            document.getElementById('step6_main').classList.remove('hidden');
-            toggleStep(6,'main')
+        if((stepNumber == 3 && type == 'main')){
+          document.getElementById(`input_title_main`).value = document.getElementById(`input_fileName_non_deliverable`).value
         }
 
-        if(stepNumber == 1 && type == 'main'){
-            toggleStep(2,'main')
-            return
-        }
+        // if(stepNumber == 1 && type == 'main'){
+        //     toggleStep(2,'main')
+        //     return
+        // }
         toggleStep(stepNumber+1,type)
 
     }
@@ -93,10 +167,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       
         searchInput.addEventListener("input", () => {
           const value = searchInput.value.toLowerCase();
-          dropdown.innerHTML = "";
+          doc_search_dropdown.innerHTML = "";
       
           if (!value) {
-            dropdown.style.display = "none";
+            doc_search_dropdown.style.display = "none";
             return;
           }
       
@@ -110,19 +184,30 @@ document.addEventListener('DOMContentLoaded', async function() {
               selectedFile = project;
               console.log(selectedFile)
               searchInput.value = selectedFile["File Type"]
-              setDocumentSettings(selectedFile)
+              // setDocumentSettings(selectedFile)
               completeStep(2,'main')
+
+              document.getElementById('input_Description_main').value = selectedFile['File Description']
+
+              if (selectedFile.Deliverable == "Y") {
+                document.getElementById("deliverable_yes").checked  = true;
+                handleDeliverableRadioChange(null,'deliverable_yes')
+              } else {
+                document.getElementById("deliverable_no").checked  = true;
+                handleDeliverableRadioChange(null,'deliverable_no')
+              }
+              
             });
-            dropdown.appendChild(div);
+            doc_search_dropdown.appendChild(div);
           });
       
-          dropdown.style.display = filtered.length > 0 ? "block" : "none";
+          doc_search_dropdown.style.display = filtered.length > 0 ? "block" : "none";
           //noResults.style.display = filtered.length > 0 ? "none" : "block";
         });
       
         document.addEventListener("click", (e) => {
           if (!e.target.closest(".search-box")) {
-            dropdown.style.display = "none";
+            doc_search_dropdown.style.display = "none";
           }
         });
       }
@@ -157,19 +242,21 @@ document.addEventListener('DOMContentLoaded', async function() {
       }
 
       async function setDocumentSettings(selectedFile) {
-        if (selectedFile.Deliverable == "Y") {
-            document.getElementById("deliverables").classList.remove('hidden');
-            document.getElementById("non_deliverables").classList.add('hidden');
-            uploadType = "deliverable"
-            toggleStep(3,'deliverable')
-        } else {
-            document.getElementById("non_deliverables").classList.remove('hidden');
-            document.getElementById("deliverables").classList.add('hidden');
-            uploadType = "non_deliverable"
-            document.getElementById('input_Description_non_deliverable').value = selectedFile['File Description']
-            toggleStep(3,'non_deliverable')   
-        }
-        populateStatusDropdown(uploadType)
+        
+        console.log('working here')
+        // if (selectedFile.Deliverable == "Y") {
+        //     document.getElementById("deliverables").classList.remove('hidden');
+        //     document.getElementById("non_deliverables").classList.add('hidden');
+            
+        //     toggleStep(3,'main')
+        // } else {
+        //     document.getElementById("non_deliverables").classList.remove('hidden');
+        //     document.getElementById("deliverables").classList.add('hidden');
+            
+            
+        // }
+        
+        console.log('working here')
       }
 
       async function generateUploadSummary() {
@@ -186,21 +273,24 @@ document.addEventListener('DOMContentLoaded', async function() {
 
       async function setValues(type) {
         if(type == 'non_deliverable'){
-            fileName = document.getElementById(`input_fileName_${type}`).value || ''
+            fileName = document.getElementById(`input_fileName_non_deliverable`).value || ''
             folderPath = selectedFile['ACC Folder Path'] || ''
         }else{
-            fileName = document.getElementById(`DocNumber_${type}`).value || ''
-            folderPath = document.getElementById(`input_folder_${type}`).text || ''
+            const dropdown = document.getElementById('input_folder_main');
+            const selectedText = dropdown.options[dropdown.selectedIndex].text;
+
+            fileName = document.getElementById(`DocNumber_deliverable`).value || ''
+            folderPath = selectedText || ''
         }
         
-        fileDescription = document.getElementById(`input_Description_${type}`).value || ''
-        titleLine1 = document.getElementById(`input_title_${type}`).value || ''
-        titleLine2 = document.getElementById(`input_title2_${type}`).value || ''
-        titleLine3 = document.getElementById(`input_title3_${type}`).value || ''
-        titleLine4 = document.getElementById(`input_title4_${type}`).value || ''
-        fileStatus = document.getElementById(`input_Status_${type}`).value || ''
-        fileRevision = document.getElementById(`input_RevisionsCode_${type}`).value || ''
-        fileClassification = document.getElementById(`input_title_${type}`).value || ''
-        fileDocumentClassification = document.getElementById(`document_classification_${type}`).value || ''
+        fileDescription = document.getElementById(`input_Description_main`).value || ''
+        titleLine1 = document.getElementById(`input_title_main`).value || ''
+        titleLine2 = document.getElementById(`input_title2_main`).value || ''
+        titleLine3 = document.getElementById(`input_title3_main`).value || ''
+        titleLine4 = document.getElementById(`input_title4_main`).value || ''
+        fileStatus = document.getElementById(`input_Status_main`).value || ''
+        fileRevision = document.getElementById(`input_RevisionsCode_main`).value || ''
+        // fileClassification = document.getElementById(`input_title_main`).value || ''
+        fileDocumentClassification = document.getElementById(`document_classification_main`).value || ''
       }
         

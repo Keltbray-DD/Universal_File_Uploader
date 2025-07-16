@@ -15,22 +15,20 @@ async function runUpload(){
 
   if(uploadType == 'deliverable'){
     input_fileName = document.getElementById('DocNumber_deliverable').value;
-    input_folder = document.getElementById('input_folder_deliverable').value;
-    input_title = document.getElementById('input_title_deliverable').value;
-    input_Description = document.getElementById('input_Description_deliverable').value;
-    input_RevisionsCode = document.getElementById('input_RevisionsCode_deliverable').value;
-    input_Status = document.getElementById('input_Status_deliverable').value;
-    input_classification = document.getElementById('input_Classification_deliverable').value;
+    input_folder = document.getElementById('input_folder_main').value;
+
   }
   else{
     input_fileName = document.getElementById('input_fileName_non_deliverable').value;
     input_folder = folderPath
-    input_title = document.getElementById('input_title_non_deliverable').value;
-    input_Description = document.getElementById('input_Description_non_deliverable').value;
-    input_RevisionsCode = document.getElementById('input_RevisionsCode_non_deliverable').value;
-    input_Status = document.getElementById('input_Status_non_deliverable').value;
+
     //input_classification = document.getElementById('input_Classification_non_deliverable').value;
   }
+    input_title = document.getElementById('input_title_main').value;
+    input_Description = document.getElementById('input_Description_main').value;
+    input_RevisionsCode = document.getElementById('input_RevisionsCode_main').value;
+    input_Status = document.getElementById('input_Status_main').value;
+
     // Check if the username field is empty
     if (!input_fileName.trim()) {
         // Alert the user if the username field is empty
@@ -121,7 +119,7 @@ if(!folderID){
     // return
 
   }else{
-    const dropdown = document.getElementById('input_folder_deliverable');
+    const dropdown = document.getElementById('input_folder_main');
     uploadFolderID = dropdown.value
   }
 
@@ -518,15 +516,13 @@ async function uploadFile(uploadFolderID,filename,projectID){
   await postCustomItemDetails(AccessToken_DataCreate)
   updateProgressBar()
 
-  uploadbutton.innerText = "View file on ACC"
-  uploadbutton.onclick = viewFile
+  afterUpload_btn_container.style.display = 'flex'
+  beforeUpload_btn_container.style.display = 'none'
 
   const progressBarContainer = document.querySelector('.progress-bar__container');
   const progressBar = document.querySelector('.progress-bar-Main');
   const progressBarText = document.querySelector('.progress-bar-Main__text');
   progress = 100
-  uploadbutton.disabled = false
-  reloadButton.style.display = 'block';
   if(progress == 100){
       gsap.to(progressBar, {
         x: `${progress}%`,
@@ -581,42 +577,42 @@ async function postCustomItemDetails(AccessToken){
       {
           // Title Line 1
         "id": titlelineID.id,
-        "value": titleLine1
+        "value": titleLine1 || ''
       },
       {
           // Title Line 2
         "id": titleline2ID.id,
-        "value": titleLine2
+        "value": titleLine2 || ''
       },
       {
           // Title Line 3
         "id": titleline3ID.id,
-        "value":titleLine3
+        "value":titleLine3 || ''
       },
       {
           // Title Line 4
         "id": titleline4ID.id,
-        "value": titleLine4
+        "value": titleLine4 || ''
       },
       {
           // Revision Code
         "id": revisionCodeID.id,
-        "value": fileRevision
+        "value": fileRevision || ''
       },
       {
           // Status Code
         "id": statusCodeID.id,
-        "value": fileStatus
+        "value": fileStatus || ''
       },
       {
            // Status Description
         "id": ClassificationID.id,
-        "value": classValue
+        "value": classValue || ''
       },
       {
            // Status Description
         "id": FileDescriptionID.id,
-        "value": fileDescription
+        "value": fileDescription || ''
       },
   //     {
   //       // Status Description
