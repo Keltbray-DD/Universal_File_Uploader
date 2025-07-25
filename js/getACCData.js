@@ -690,7 +690,7 @@ async function getAllACCFolders(startfolder_list){
             
         folderList_Main = []
         statusUpdateLoading.textContent = "Getting Folders..."
-        project_Name = sessionStorage.getItem('projectName')
+        projectName = sessionStorage.getItem('projectName')
         await sortFolderList()
         //statusUpdate.innerHTML = `<p class="extracted-ids"> Start Folder Found</p>`
         //await getFolderList(access_token_read,startfolder_list)
@@ -718,7 +718,7 @@ async function getAllACCFolders(startfolder_list){
 
     async function getFolderListFromSP(){
         const bodyData = {
-            'project_Name': project_Name
+            'project_Name': projectName
         };
         const headers = {
             'Content-Type': 'application/json',
@@ -849,9 +849,9 @@ async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
         
 async function getNamingStandardID(folderArray){
     wipFolderID = folderArray.filter(item => {
-        return item.folderPath.includes("0C.WIP / KEL") || item.folderPath.includes("0C.WIP / A")
+        return item.folderPath.includes("0C.WIP / KEL") || item.folderPath.includes("Aureos")
     })
-    console.log("Keltrbay WIP Folder for NS",wipFolderID[0]);
+    console.log("Aureos WIP Folder for NS",wipFolderID[0]);
     defaultFolder = wipFolderID[0].folderID
     returnData = await getFolderDetails(accessTokenDataRead,projectID,wipFolderID[0].folderID)
     

@@ -308,6 +308,11 @@ progress::-webkit-progress-value {
     width: 100%;
 }
 
+.summaryBox {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
 .progress-bar__container {
     width: 90%;
     height: 2rem;

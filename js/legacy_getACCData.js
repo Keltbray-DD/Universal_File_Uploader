@@ -853,7 +853,7 @@ async function getFolderList(AccessToken, startFolderList, parentFolderPath) {
         
 async function getNamingStandardID(folderArray){
     wipFolderID = folderArray.filter(item => {
-        return item.folderPath.includes("0C.WIP / KEL") || item.folderPath.includes("0C.WIP / A")
+        return item.folderPath.includes("0C.WIP / KEL") || item.folderPath.includes("Aureos")
     })
     console.log("Keltrbay WIP Folder for NS",wipFolderID[0]);
     defaultFolder = wipFolderID[0].folderID

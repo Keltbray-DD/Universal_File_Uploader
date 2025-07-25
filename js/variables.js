@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.4.0";
+const appVersion = "v1.4.1";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -227,17 +227,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Add a click event listener to the button
-  reloadButton.addEventListener("click", function () {
+  reloadButton.addEventListener("click", async function () {
     // Reload the page
     location.reload();
+    await resetForm()
     // Scroll to the top of the page
     window.scrollTo(0, 0);
   });
 
-  function resetForm(){
+  async function resetForm(){
     document.getElementById('DocNumber').reset
-    document.getElementById('step4').innerHTML = initialStep4SectionHTML;
-    document.getElementById('step5').innerHTML = initialStep5SectionHTML;
+    document.getElementById('input_file_origin').reset;
+    document.getElementById('searchInput').reset;
   }
 
   originSelectionDropdown.addEventListener("change", function () {

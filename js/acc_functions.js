@@ -50,7 +50,7 @@ async function getProjectDetails(access_token,projectId) {
     const requestOptions = {
         method: 'GET',
         headers: headers,
-        body: JSON.stringify(bodyData)
+        //body: JSON.stringify(bodyData)
     };
 
     const apiUrl = `https://developer.api.autodesk.com/construction/admin/v1/projects/${projectId}`;

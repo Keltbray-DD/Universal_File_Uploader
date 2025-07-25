@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(!projectID){
       const urlParams = new URLSearchParams(window.location.search);
       projectID = urlParams.get('projectID');
-      accessToken = await getAccessToken('scopeInput')
+      accessToken = await getAccessToken('account:read')
       const projectData = await getProjectDetails(accessToken,projectID)
       await populateTitles(projectData.name)
     }else{
@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     async function populateTitles(projectName) {
       document.title = `${projectName} File Uploader`;
       document.getElementById("titleBox").innerHTML = `<h1>${projectName}</h1><hr class="divider">`;
+      project_Name = projectName
     }
 
     document.getElementById("appInfo").textContent = `${appName} ${appVersion}`;
