@@ -107,6 +107,35 @@ function populateStatusDropdown(type) {
     }
 }
 
+function populateDocClassDropdown(type) {
+    
+    const dropdown = document.getElementById(`document_classification_main`);
+    // Check if dropdown element exists
+    if (dropdown) {
+        // Clear existing options
+        dropdown.innerHTML = '';
+
+        // Add blank option
+        const blankOption = document.createElement('option');
+        blankOption.value = '';
+        blankOption.textContent = 'Select a state...';
+        dropdown.appendChild(blankOption);
+
+        // Add states from iso19650States array
+        DocClassificationID.arrayValues.forEach(state => {
+            const option = document.createElement('option');
+            if(state == "Internal"){
+                option.selected = true
+            }
+            option.value = state;
+            option.textContent = `${state}`;
+            dropdown.appendChild(option);
+        });
+    } else {
+        console.error('Dropdown element not found.');
+    }
+}
+
 function populateSeriesDropdown() {
     //document.addEventListener('DOMContentLoaded', function() {
     const dropdown = document.getElementById('input_Series');

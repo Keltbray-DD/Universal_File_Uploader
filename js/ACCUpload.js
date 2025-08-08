@@ -2,12 +2,7 @@
 
 async function runUpload(){
     // Get the value of the username and password fields
-    let input_fileName
-    let input_folder
-    let input_title
-    let input_Description
-    let input_RevisionsCode
-    let input_Status
+
     let input_file_template = document.getElementById('input_file_template').value;
     let input_file_origin = document.getElementById('input_file_origin').value;
     let fileInput = document.getElementById('fileInput');
@@ -188,6 +183,8 @@ async function getCustomDetailsData(){
   console.log('ClassificationID',ClassificationID)
   console.log('FileDescriptionID',FileDescriptionID)
   console.log('DeliverableID',DeliverableID)
+
+
 }
 
 async function getAccessToken(scopeInput){
@@ -511,7 +508,7 @@ async function uploadFile(uploadFolderID,filename,projectID){
   } catch (error) {
       console.error('Error:', error);
   }
-  //await patchItemDetails(AccessToken_DataCreate)
+  await patchItemDetails(AccessToken_DataCreate)
   //updateProgressBar()
   await postCustomItemDetails(AccessToken_DataCreate)
   updateProgressBar()
@@ -574,52 +571,19 @@ async function postCustomItemDetails(AccessToken){
 
   //console.log("SD",$("#input_StatusDesc").val())
   const bodyData = [
-      {
-          // Title Line 1
-        "id": titlelineID.id,
-        "value": titleLine1 || ''
-      },
-      {
-          // Title Line 2
-        "id": titleline2ID.id,
-        "value": titleLine2 || ''
-      },
-      {
-          // Title Line 3
-        "id": titleline3ID.id,
-        "value":titleLine3 || ''
-      },
-      {
-          // Title Line 4
-        "id": titleline4ID.id,
-        "value": titleLine4 || ''
-      },
-      {
-          // Revision Code
-        "id": revisionCodeID.id,
-        "value": fileRevision || ''
-      },
-      {
-          // Status Code
-        "id": statusCodeID.id,
-        "value": fileStatus || ''
-      },
-      {
-           // Status Description
-        "id": ClassificationID.id,
-        "value": classValue || ''
-      },
-      {
-           // Status Description
-        "id": FileDescriptionID.id,
-        "value": fileDescription || ''
-      },
-  //     {
-  //       // Status Description
-  //    "id": DeliverableID.id,
-  //    "value": $("#input_Deliverable").val()
-  //  }
-    ];
+    { id: titlelineID?.id, value: titleLine1 || '' },
+    { id: titleline2ID?.id, value: titleLine2 || '' },
+    { id: titleline3ID?.id, value: titleLine3 || '' },
+    { id: titleline4ID?.id, value: titleLine4 || '' },
+    { id: revisionCodeID?.id, value: fileRevision || '' },
+    { id: statusCodeID?.id, value: fileStatus || '' },
+    { id: ClassificationID?.id, value: classValue },
+    { id: FileDescriptionID?.id, value: fileDescription || '' },
+    { id: DocClassificationID?.id, value: fileDocumentClassification || '' },
+    
+    // { id: DeliverableID?.id, value: $("#input_Deliverable").val() }
+  ];
+
 
   const headers = {
       'Authorization':"Bearer "+AccessToken,
@@ -730,19 +694,22 @@ async function postCopyofItem(AccessToken,copyURN,objectKeyLong){
   }
 
 async function patchItemDetails(AccessToken){
-  const newFileName = $("#DocNumber").val()+"."+fileExtension
-  const bodyData = [{
-      "jsonapi": {
-        "version": 1.0
+  const bodyData = {
+      jsonapi: {
+        "version": "1.0"
       },
-      "data": {
-        "type": "items",
-        "id": fileItemID,
-        "attributes": {
-          "displayName": newFileName
+      data: {
+        type: "items",
+        id: fileItemID,
+        attributes: {
+            extension:{
+                data:{
+                    description:input_Description
+                }
+            }
         }
       }
-    }];
+    };
 
   convertedBody = JSON.stringify(bodyData)
   const headers = {
@@ -760,7 +727,7 @@ async function patchItemDetails(AccessToken){
   const apiUrl = "https://developer.api.autodesk.com/data/v1/projects/b."+projectID+"/items/"+fileItemID;
   console.log(apiUrl)
   console.log(requestOptions)
-  signedURLData = await fetch(apiUrl,requestOptions)
+  responseData = await fetch(apiUrl,requestOptions)
       .then(response => response.json())
       .then(data => {
           const JSONdata = data
@@ -770,7 +737,7 @@ async function patchItemDetails(AccessToken){
       return JSONdata
       })
       .catch(error => console.error('Error fetching data:', error));
-  return signedURLData
+  return responseData
   }
 
 // Function to find object by name

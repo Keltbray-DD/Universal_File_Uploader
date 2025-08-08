@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
       }
       populateStatusDropdown(uploadType)
+      populateDocClassDropdown()
     }
     // Function to toggle visibility of step content
    async function toggleStep(stepNumber,type) {
