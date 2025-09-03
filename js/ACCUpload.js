@@ -577,7 +577,6 @@ async function postCustomItemDetails(AccessToken){
     { id: titleline4ID?.id, value: titleLine4 || '' },
     { id: revisionCodeID?.id, value: fileRevision || '' },
     { id: statusCodeID?.id, value: fileStatus || '' },
-    { id: ClassificationID?.id, value: classValue },
     { id: FileDescriptionID?.id, value: fileDescription || '' },
     { id: DocClassificationID?.id, value: fileDocumentClassification || '' },
     
