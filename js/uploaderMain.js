@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', async function() {
               // setDocumentSettings(selectedFile)
               completeStep(2,'main')
 
-              document.getElementById('input_Description_main').value = selectedFile['File Description']
+              document.getElementById('input_Description_main').value = selectedFile['File Type']
 
               if (selectedFile.Deliverable == "Y") {
                 document.getElementById("deliverable_yes").checked  = true;
