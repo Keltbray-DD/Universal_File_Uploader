@@ -26,8 +26,20 @@ document.addEventListener('DOMContentLoaded', async function() {
     deliverable_yes_radio = document.getElementById('deliverable_yes')
     deliverable_no_radio = document.getElementById('deliverable_no')
     // Add event listeners to radio buttons
-    deliverable_yes_radio.addEventListener('change', handleDeliverableRadioChange);
-    deliverable_no_radio.addEventListener('change', handleDeliverableRadioChange);
+    
+    deliverable_yes_radio.addEventListener('change', function() {
+      if(deliverable_yes_radio.checked) {
+        handleDeliverableRadioChange('deliverable_yes');
+      }
+
+    });
+
+    deliverable_no_radio.addEventListener('change', function() {
+      if(deliverable_no_radio.checked) {
+        handleDeliverableRadioChange('deliverable_no');
+      }  
+    });
+
 
 
   const input_ManualFileName = document.getElementById('input_fileName_non_deliverable');
@@ -83,28 +95,32 @@ document.addEventListener('DOMContentLoaded', async function() {
         //initialStep5SectionHTML = document.getElementById('step5').innerHTML
     }
 
-    function handleDeliverableRadioChange(event,input) {
-      const x = input || event.target.id
+    function handleDeliverableRadioChange(input) {
+      console.log('input',input)
       const step3_btn = document.getElementById('step3_next_btn')
       const DocNumber_deliverable = document.getElementById("DocNumber_deliverable")
       const DocNumber_non_deliverable = document.getElementById("input_fileName_non_deliverable")
+      const fileName_generate = document.getElementById('fileName_generate')
+      const fileName_manual = document.getElementById('fileName_manual')
 
       step3_btn.disabled = true
 
-      if (x === 'deliverable_yes') {
+      if (input === 'deliverable_yes') {
       // Action when 'Yes' is selected
         console.log('Yes selected');
-        document.getElementById('fileName_generate').style.display = 'block'
-        document.getElementById('fileName_manual').style.display = 'none'
+        fileName_generate.style.display = 'block'
+        fileName_manual.style.display = 'none'
         uploadType = "deliverable"
         if(DocNumber_deliverable.length > 0){
           step3_btn.disabled = false
         }
-      } else if (x === 'deliverable_no') {
+      } 
+      
+      if (input === 'deliverable_no') {
         // Action when 'No' is selected
         console.log('No selected');
-        document.getElementById('fileName_manual').style.display = 'block'
-        document.getElementById('fileName_generate').style.display = 'none'
+        fileName_manual.style.display = 'block'
+        fileName_generate.style.display = 'none'
         uploadType = "non_deliverable"
         if(DocNumber_non_deliverable.length > 0){
           step3_btn.disabled = false
@@ -129,14 +145,30 @@ document.addEventListener('DOMContentLoaded', async function() {
           await setValues(uploadType)
           await generateUploadSummary()
       }
+      const item = stepsArray.find(obj => obj.step === stepNumber);
+
+      if (item) {
+        item.status = "open";
+      }
+      document.getElementById(`step${stepNumber}_main`).classList.remove('locked');
     }
 
     // Function to mark a step as complete
-    function completeStep(stepNumber,type) {
+    function completeStep(stepNumber,type,deliverable) {
         // Mark the step as completed
         const status = document.getElementById(`status${stepNumber}_${type}`);
         status.textContent = 'Completed';
         status.classList.add('completed');
+        console.log(deliverable)
+        if (stepNumber == 2 && deliverable == "Y") {
+          const yesRadio = document.getElementById("deliverable_yes");
+          yesRadio.checked = true;
+          handleDeliverableRadioChange('deliverable_yes')
+        } else if(stepNumber == 2) {
+          const noRadio = document.getElementById("deliverable_no");
+          noRadio.checked = true;
+          handleDeliverableRadioChange('deliverable_no')
+        }
 
         // Minimize the step content
         const stepContent = document.querySelector(`#step${stepNumber}_${type} .step-content`);
@@ -145,8 +177,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         //     populateFolderDropdown(deliverableFolders);
         // }
         // Expand the next step (if it exists)
-        const nextStep = document.getElementById(`step${stepNumber + 1}`);
+        const targetStep = stepNumber + 1;
+        const nextStep = document.getElementById(`step${targetStep}`);
         if (nextStep) {
+          
+
             const nextContent = nextStep.querySelector('.step-content');
             nextContent.style.display = 'block';
         }
@@ -187,17 +222,17 @@ document.addEventListener('DOMContentLoaded', async function() {
               console.log(selectedFile)
               searchInput.value = selectedFile["File Type"]
               // setDocumentSettings(selectedFile)
-              completeStep(2,'main')
+              completeStep(2,'main',selectedFile.Deliverable)
 
               document.getElementById('input_Description_main').value = selectedFile['File Type']
 
-              if (selectedFile.Deliverable == "Y") {
-                document.getElementById("deliverable_yes").checked  = true;
-                handleDeliverableRadioChange(null,'deliverable_yes')
-              } else {
-                document.getElementById("deliverable_no").checked  = true;
-                handleDeliverableRadioChange(null,'deliverable_no')
-              }
+              // if (selectedFile.Deliverable == "Y") {
+              //   document.getElementById("deliverable_yes").checked  = true;
+              //   handleDeliverableRadioChange(null,'deliverable_yes')
+              // } else {
+              //   document.getElementById("deliverable_no").checked  = true;
+              //   handleDeliverableRadioChange(null,'deliverable_no')
+              // }
               
             });
             doc_search_dropdown.appendChild(div);

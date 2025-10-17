@@ -90,7 +90,7 @@
                     <button id="step1_next_btn"  class="nextButton" onclick="completeStep(1,'main')">Next</button>
                 </div>
             </div>
-            <div class="step" id="step2_main">
+            <div class="step locked" id="step2_main">
                 <div class="step-header" onclick="toggleStep(2,'main')">
                     <h3 class="form-heading">Step 2. Search for file type</h3>
                     <span class="step-status" id="status2_main">Pending</span>
@@ -111,7 +111,7 @@
 
                 </div>
             </div>
-            <div class="step" id="step3_main">
+            <div class="step locked" id="step3_main">
                 <div class="step-header" onclick="toggleStep(3,'main')">
                     <h3 class="form-heading">Step 3. File Name</h3>
                     <span class="step-status" id="status3_main">Pending</span>
@@ -132,7 +132,7 @@
                     </div>
                     
                                     <div>
-                    <div class="step-content" id="fileName_generate">
+                    <div class="step-content-sub" id="fileName_generate">
 
                         <!-- Project PIN Input-->
                         <ul class="form-step1">
@@ -214,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="step-content" id="fileName_manual">
+                    <div class="step-content-sub" id="fileName_manual">
                         <ul class="form-step1">
                             <li>
                                 <label class="form-label form-label-top form-label-auto" id="label_fileName_main" for="input_fileName_main"
@@ -234,7 +234,7 @@
                     <button id="step3_next_btn" class="nextButton" onclick="completeStep(3,'main')" disabled>Next</button>
                 </div>
             </div>
-            <div class="step" id="step4_main">
+            <div class="step locked" id="step4_main">
                 <div class="step-header" onclick="toggleStep(4,'main')">
                     <h3 class="form-heading">Step 4. Add Attribute data to file</h3>
                     <span class="step-status" id="status4_main">Pending</span>
@@ -338,8 +338,8 @@
 
                     <button id="step4_next_btn"  class="nextButton" onclick="completeStep(4,'main')">Next</button>
                 </div>
-    </div>
-                <div class="step" id="step5_main">
+            </div>
+            <div class="step locked" id="step5_main">
                 <div class="step-header" onclick="toggleStep(5,'main')">
                     <h3 class="form-heading">Summary</h3>
                 </div>
@@ -363,7 +363,7 @@
                     </div>
                 </div>
             </div>
-            </div>
+        </div>
 <!-- <div id="deliverables" class="hidden">
     <div class="step" id="step3_deliverable">
         <div class="step-header" onclick="toggleStep(3,'deliverable')">

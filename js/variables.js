@@ -1,5 +1,5 @@
 const appName = "ACC File Uploader";
-const appVersion = "v1.4.5";
+const appVersion = "v1.4.6";
 
 let projectID;
 const hubID= "b.24d2d632-e01b-4ca0-b988-385be827cb04"
@@ -219,6 +219,14 @@ let fileDocumentClassification
 
 let deliverable_yes_radio
 let deliverable_no_radio
+
+let stepsArray = [
+  {step:1,status:"open"},
+  {step:2,status:"locked"},
+  {step:3,status:"locked"},
+  {step:4,status:"locked"},
+  {step:5,status:"locked"},
+]
 
 document.addEventListener("DOMContentLoaded", function () {
   uploadbutton = document.getElementById("uploadfile_btn");

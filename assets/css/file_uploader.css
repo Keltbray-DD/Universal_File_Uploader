@@ -68,6 +68,12 @@ body {
     overflow: hidden;
 }
 
+.locked{
+    opacity: 0.5;
+    pointer-events: none; /* Prevent clicks */
+    cursor: not-allowed;
+}
+
 .step-header {
     display: flex;
     justify-content: space-between;
@@ -98,7 +104,8 @@ body {
     background: var(--primary-color);
 }
 
-.step-content {
+.step-content,
+.step-content-sub {
     display: none;
     padding: 20px;
     background: var(--background-color);
@@ -1038,7 +1045,7 @@ input[type="checkbox"]:focus {
     background-color: white;
     border: 1px solid #ccc;
     border-top: none;
-    max-height: 500px;
+    max-height: 200px;
     overflow-y: auto;
     display: none;
     z-index: 10;
