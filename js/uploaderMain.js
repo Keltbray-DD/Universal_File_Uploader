@@ -81,7 +81,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         accessTokenDataRead = await getAccessToken("data:read");
         mappingData = await geMappingData()
-        await documentSeachBarLoad(mappingData.files)
+        mappingData_files_Single = await filterDuplicatesByField(mappingData.files, 'File Type')
+        await documentSeachBarLoad(mappingData_files_Single)
         await getFolders()
         await getfileslist()
         await getNamingStandardID(deliverableFolders)
@@ -93,6 +94,18 @@ document.addEventListener('DOMContentLoaded', async function() {
         await hideLoadingScreen();
         //initialStep4SectionHTML = document.getElementById('step4').innerHTML
         //initialStep5SectionHTML = document.getElementById('step5').innerHTML
+    }
+
+    async function filterDuplicatesByField(arr, field) {
+      const seen = new Set();
+      return arr.filter(obj => {
+        const value = obj[field];
+        if (seen.has(value)) {
+          return false; // Skip duplicates
+        }
+        seen.add(value);
+        return true; // Keep first occurrence
+      });
     }
 
     function handleDeliverableRadioChange(input) {
